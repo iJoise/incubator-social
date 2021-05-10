@@ -1,0 +1,120 @@
+$minWidth: 320px;
+$maxWidth: 1920;
+$maxWidthContainer: 1180;
+$md1: $maxWidthContainer + 12;
+$md2: 991.98;
+$md3: 767.98;
+$md4: 479.98;
+
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,700;1,700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,400;1,600&display=swap');
+
+$Source: 'Source Sans Pro', sans-serif;
+$fontFamily: "Roboto", sans-serif;
+
+* {
+   padding: 0px;
+   margin: 0px;
+   border: 0px;
+}
+
+*,
+*:before,
+*:after {
+   -moz-box-sizing: border-box;
+   -webkit-box-sizing: border-box;
+   box-sizing: border-box;
+}
+
+:focus,
+:active {
+   outline: none;
+}
+
+a:focus,
+a:active {
+   outline: none;
+}
+
+aside,
+nav,
+footer,
+header,
+section {
+   display: block;
+}
+
+html,
+body {
+   height: 100%;
+   min-width: $minWidth;
+   counter-reset: li;
+}
+
+body {
+   line-height: 1;
+   font-family: $fontFamily;
+   -ms-text-size-adjust: 100%;
+   -moz-text-size-adjust: 100%;
+   -webkit-text-size-adjust: 100%;
+   background-color: #f0f2f7;
+}
+
+input,
+button,
+textarea {
+   font-family: $fontFamily;
+}
+
+input::-ms-clear {
+   display: none;
+}
+
+button {
+   cursor: pointer;
+}
+
+button::-moz-focus-inner {
+   padding: 0;
+   border: 0;
+}
+
+a,
+a:visited {
+   text-decoration: none;
+}
+
+a:hover {
+   text-decoration: none;
+}
+
+ul li {
+   list-style: none;
+}
+
+img {
+   vertical-align: top;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+   font-weight: inherit;
+   font-size: inherit;
+}
+
+a {
+   color: #fff;
+}
+
+//-webkit-overflow-scrolling: touch;
+//animation-play-state: paused !important;
+
+
+
+#root {
+
+}

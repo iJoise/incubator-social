@@ -1,0 +1,57 @@
+.header {
+   grid-area: h;
+   background-color: #304159;
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   position: sticky;
+   top: 0;
+   left: 0;
+   border-bottom-left-radius: 5px;
+   border-bottom-right-radius: 5px;
+   z-index: 1;
+   img {
+      height: 150px;
+   }
+}
+
+.input {
+   position: relative;
+   width: 500px;
+   height: 35px;
+   display: flex;
+   font-size: 16px;
+   border-radius: 50px;
+   padding: 0 0 0 15px;
+   margin: 0 40px 0 0;
+   color: #fff;
+   font-size: 18px;
+   background: url("http://s1.iconbird.com/ico/0612/GooglePlusInterfaceIcons/w18h181338911559zoom.png") 97% no-repeat
+      #455469;
+   &::placeholder {
+      color: rgba(255, 255, 255, 0.4);
+   }
+}
+
+.buttons {
+   padding-right: 30px;
+}
+
+.btn {
+   width: 90px;
+   height: 30px;
+
+   i {
+      padding-right: 10px;
+      font-size: 16px;
+   }
+}
+
+.btn_log {
+   margin-right: 15px;
+}
+
+.btn_reg {
+   background-color: #0e6ebc;
+   color: white;
+}
