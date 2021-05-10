@@ -1,0 +1,28 @@
+.friends {
+  margin: 20px 0 0 0;
+  padding: 20px;
+  h3 {
+    font-size: 18px;
+    font-weight: bold;
+    color: #304159;
+    i {
+      width: 35px;
+      height: 35px;
+      font-size: 24px;
+      line-height: 20px;
+      color: #304159;
+    }
+  }
+
+
+
+  &__column {
+    padding: 15px 0 0 0;
+
+  }
+  &__row{
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+}
