@@ -2,7 +2,7 @@ import React from 'react';
 import style from './Posts.module.scss';
 import {PostsType} from "../../../../redux/state";
 
-const Post: React.FC<PostsType> = ({message,id,countLike}) => {
+export const Post: React.FC<PostsType> = ({message,id,countLike}) => {
    return (
       <div className={style.post}>
          <div className={style.top}>
@@ -35,4 +35,3 @@ const Post: React.FC<PostsType> = ({message,id,countLike}) => {
    );
 };
 
-export default Post;

@@ -9,6 +9,14 @@ export const Dialogs: React.FC<DialogsPageType> = ({dialogs, messages}) => {
    const dialogsElements = dialogs.map(d => <DialogItem key={d.id} name={d.name} id={d.id} avatar={d.avatar}/>);
    const messagesElement = messages.map(m => <Message key={m.id} message={m.message} id={m.id}/>);
 
+   const sendButton = 'fa' + ' ' + 'fa-paper-plane' + ' ' + style.btnSend;
+
+   const newMessageRef = React.createRef<HTMLTextAreaElement>();
+
+   const addNewMessage = () => {
+      alert(newMessageRef.current?.value);
+   }
+
    return (
       <div className={style.dialogs}>
          <div className={style.dialogItem}>
@@ -30,7 +38,8 @@ export const Dialogs: React.FC<DialogsPageType> = ({dialogs, messages}) => {
             {messagesElement}
             <div className={style.messageBottom}>
                <i className="fa fa-paperclip"/>
-               <textarea className={style.messageText} placeholder={'Введите сообщение...'}/>
+               <textarea ref={newMessageRef} className={style.messageText} placeholder={'Введите сообщение...'}/>
+               <i className={sendButton} onClick={addNewMessage}/>
                <i className="fa fa-microphone"/>
             </div>
          </div>

@@ -1,6 +1,6 @@
 import React from 'react';
-import ProfileInfo from './ProfileInfo/ProfileInfo';
-import MyPosts from './MyPostst/MyPosts';
+import {ProfileInfo} from './ProfileInfo/ProfileInfo';
+import {MyPosts} from './MyPostst/MyPosts';
 import {ProfilePageType} from "../../redux/state";
 
 

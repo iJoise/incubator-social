@@ -1,7 +1,7 @@
 import React from 'react';
 import style from './ProfileInfo.module.scss';
 
-const ProfileInfo = () => {
+export const ProfileInfo = () => {
    return (
       <>
          <div className={style.content_img}>
@@ -44,4 +44,3 @@ const ProfileInfo = () => {
    );
 };
 
-export default ProfileInfo;
