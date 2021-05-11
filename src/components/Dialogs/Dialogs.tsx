@@ -9,7 +9,7 @@ export const Dialogs: React.FC<DialogsPageType> = ({dialogs, messages}) => {
    const dialogsElements = dialogs.map(d => <DialogItem key={d.id} name={d.name} id={d.id} avatar={d.avatar}/>);
    const messagesElement = messages.map(m => <Message key={m.id} message={m.message} id={m.id}/>);
 
-   const sendButton = 'fa' + ' ' + 'fa-paper-plane' + ' ' + style.btnSend;
+   const sendButton = `fa fa-paper-plane ${style.btnSend}`;
 
    const newMessageRef = React.createRef<HTMLTextAreaElement>();
 

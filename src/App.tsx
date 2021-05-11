@@ -8,23 +8,25 @@ import Settings from './components/Settings/Settings';
 import Music from './components/Music/Music';
 import News from './components/News/News';
 import {BrowserRouter, Route} from "react-router-dom";
-import {RootStateType} from "./redux/state";
+import {pushNewPostInState, RootStateType} from "./redux/state";
 
 type AppPropsType = {
    state: RootStateType
+   pushNewPostInState: (newPost: string) => void
 }
 
 
-const App:React.FC<AppPropsType> = ({state}) => {
+const App: React.FC<AppPropsType> = ({state, pushNewPostInState}) => {
    return (
       <BrowserRouter>
          <div className="app-wrapper">
             <Header/>
             <Navbar friends={state.sidebar.friends}/>
             <main className="app-wrapper-content">
-               <Route path="/dialogs" render={() => <Dialogs dialogs={state.dailogsPage.dialogs}
-                                                             messages={state.dailogsPage.messages}/>}/>
-               <Route path="/profile" render={() => <Profile posts={state.profilePage.posts}/>}/>
+               <Route path="/dialogs" render={() => <Dialogs dialogs={state.dialogsPage.dialogs}
+                                                             messages={state.dialogsPage.messages}/>}/>
+               <Route path="/profile" render={() => <Profile posts={state.profilePage.posts}
+                                                             pushNewPostInState={pushNewPostInState}/>}/>
                <Route path="/news" render={() => <News/>}/>
                <Route path="/music" render={() => <Music/>}/>
                <Route path="/settings" render={() => <Settings/>}/>

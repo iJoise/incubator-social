@@ -31,11 +31,11 @@ export type SidebarType = {
 
 export type RootStateType = {
    profilePage: ProfilePageType
-   dailogsPage: DialogsPageType
+   dialogsPage: DialogsPageType
    sidebar: SidebarType
 }
 
-const state: RootStateType  = {
+export const state: RootStateType = {
    profilePage: {
       posts: [
          {
@@ -50,7 +50,7 @@ const state: RootStateType  = {
          }
       ]
    },
-   dailogsPage: {
+   dialogsPage: {
       dialogs: [
          {id: 1, name: 'Polina', avatar: 'https://source.unsplash.com/user/aiony/150x150/'},
          {id: 2, name: 'Ilya', avatar: 'https://source.unsplash.com/user/chrisjoelcampbell/150x150/'},
@@ -137,4 +137,12 @@ const state: RootStateType  = {
    }
 }
 
-export default state;
+export const pushNewPostInState = (newPost: string) => {
+   debugger
+   const post: PostsType = {
+      id: 3,
+      message: newPost,
+      countLike: 3
+   };
+   state.profilePage.posts.push(post);
+}
