@@ -23,6 +23,7 @@ export type FriendsType = {
 
 export type ProfilePageType = {
    posts: Array<PostsType>
+   newPostsText: string
 }
 export type DialogsPageType = {
    dialogs: Array<DialogsType>
@@ -51,7 +52,8 @@ export const state: RootStateType = {
             message: 'Lorem ipsum dolor, sit amet consecrated animistic elicit. Possimus ipsum sit voluptate sapiente ratione vero magnidoloremque modi qui.',
             countLike: 32
          }
-      ]
+      ],
+      newPostsText: ''
    },
    dialogsPage: {
       dialogs: [
@@ -140,12 +142,18 @@ export const state: RootStateType = {
    }
 }
 
-export const pushNewPostInState = (newPost: string) => {
+export const pushNewPostInState = () => {
    const post: PostsType = {
       id: v1(),
-      message: newPost,
+      message: state.profilePage.newPostsText,
       countLike: 3
    };
-   state.profilePage.posts.push(post);
+   state.profilePage.posts = [post, ...state.profilePage.posts]
+   renderEntireTree(state);
+   state.profilePage.newPostsText = '';
+}
+
+export const changeNewPostInState = (newText: string) => {
+   state.profilePage.newPostsText = newText;
    renderEntireTree(state);
 }

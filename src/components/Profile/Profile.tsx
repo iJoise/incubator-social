@@ -5,14 +5,21 @@ import {PostsType} from "../../redux/state";
 
 type ProfilePropsType = {
    posts: PostsType[]
-   pushNewPostInState: (newPost: string) => void
+   pushNewPostInState: () => void
+   newPostsText: string
+   changeNewPostInState: (newText: string) => void
 }
 
-const Profile: React.FC<ProfilePropsType> = ({posts, pushNewPostInState}) => {
+const Profile: React.FC<ProfilePropsType> = ({posts, pushNewPostInState, newPostsText, changeNewPostInState}) => {
    return (
       <>
-         <ProfileInfo />
-         <MyPosts posts={posts} pushNewPostInState={pushNewPostInState}/>
+         <ProfileInfo/>
+         <MyPosts
+            posts={posts}
+            pushNewPostInState={pushNewPostInState}
+            newPostsText={newPostsText}
+            changeNewPostInState={changeNewPostInState}
+         />
       </>
    );
 };

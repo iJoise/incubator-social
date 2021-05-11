@@ -3,14 +3,14 @@ import ReactDOM from 'react-dom';
 import './index.scss';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import {pushNewPostInState, RootStateType} from "./redux/state";
+import {changeNewPostInState, pushNewPostInState, RootStateType} from "./redux/state";
 import {BrowserRouter} from "react-router-dom";
 
 
 export const renderEntireTree = (state: RootStateType) => {
    ReactDOM.render(
       <BrowserRouter>
-         <App state={state} pushNewPostInState={pushNewPostInState}/>
+         <App state={state} pushNewPostInState={pushNewPostInState} changeNewPostInState={changeNewPostInState}/>
       </BrowserRouter>,
       document.getElementById('root')
    );
