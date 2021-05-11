@@ -17,18 +17,19 @@ export const MyPosts:React.FC<MyPostsPropsType> = ({posts, pushNewPostInState}) 
       if (newPostRef.current) {
          const post = newPostRef.current.value;
          pushNewPostInState(post);
+         newPostRef.current.value = '';
       }
    }
 
    return (
       <>
-         <form className={style.newPost}>
+         <div className={style.newPost}>
             <label >My post</label>
             <textarea ref={newPostRef} placeholder="your news..."/>
             <div>
                <button className={style.btn} onClick={addNewPosts}>Send</button>
             </div>
-         </form>
+         </div>
          {postElements}
       </>
    );

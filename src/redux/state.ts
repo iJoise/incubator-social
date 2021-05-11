@@ -1,19 +1,22 @@
+import {renderEntireTree} from "../render";
+import {v1} from "uuid";
+
 export type PostsType = {
-   id?: number
+   id?: string
    message: string
    countLike: number
 }
 export type DialogsType = {
-   id: number
+   id: string
    name: string
    avatar: string
 }
 export type MessagesType = {
-   id: number
+   id: string
    message: string
 }
 export type FriendsType = {
-   id: number
+   id: string
    name: string
    avatar: string
 }
@@ -39,12 +42,12 @@ export const state: RootStateType = {
    profilePage: {
       posts: [
          {
-            id: 1,
+            id: v1(),
             message: 'Lorem ipsum dolor, sit amet consecrated animistic elicit. Possimus ipsum sit voluptate sapiente ratione vero magnidoloremque modi quit.',
             countLike: 10
          },
          {
-            id: 2,
+            id: v1(),
             message: 'Lorem ipsum dolor, sit amet consecrated animistic elicit. Possimus ipsum sit voluptate sapiente ratione vero magnidoloremque modi qui.',
             countLike: 32
          }
@@ -52,75 +55,75 @@ export const state: RootStateType = {
    },
    dialogsPage: {
       dialogs: [
-         {id: 1, name: 'Polina', avatar: 'https://source.unsplash.com/user/aiony/150x150/'},
-         {id: 2, name: 'Ilya', avatar: 'https://source.unsplash.com/user/chrisjoelcampbell/150x150/'},
-         {id: 3, name: 'Nasty', avatar: 'https://source.unsplash.com/user/cikstefan/150x150/'},
-         {id: 4, name: 'Sasha', avatar: 'https://source.unsplash.com/user/romashilin/150x150/'},
-         {id: 5, name: 'Masha', avatar: 'https://source.unsplash.com/user/houcinencibphotography/150x150/'}
+         {id: v1(), name: 'Polina', avatar: 'https://source.unsplash.com/user/aiony/150x150/'},
+         {id: v1(), name: 'Ilya', avatar: 'https://source.unsplash.com/user/chrisjoelcampbell/150x150/'},
+         {id: v1(), name: 'Nasty', avatar: 'https://source.unsplash.com/user/cikstefan/150x150/'},
+         {id: v1(), name: 'Sasha', avatar: 'https://source.unsplash.com/user/romashilin/150x150/'},
+         {id: v1(), name: 'Masha', avatar: 'https://source.unsplash.com/user/houcinencibphotography/150x150/'}
       ],
       messages: [
          {
-            id: 1,
+            id: v1(),
             message:
                'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Exercitationem, molestiassdfsd '
          },
          {
-            id: 2,
+            id: v1(),
             message:
                'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Exercitationem, molestias sdasdas'
          },
          {
-            id: 3,
+            id: v1(),
             message:
                'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Exercitationem, molestias '
          },
          {
-            id: 5,
+            id: v1(),
             message:
                'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Exercitationem, molestias sdasdas'
          },
          {
-            id: 6,
+            id: v1(),
             message:
                'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Exercitationem, molestias sdasdas'
          },
          {
-            id: 7,
+            id: v1(),
             message:
                'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Exercitationem, molestias sdasdas'
          },
          {
-            id: 8,
+            id: v1(),
             message:
                'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Exercitationem, molestias sdasdas'
          },
          {
-            id: 9,
+            id: v1(),
             message:
                'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Exercitationem, molestias sdasdas'
          },
          {
-            id: 10,
+            id: v1(),
             message:
                'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Exercitationem, molestias sdasdas'
          },
          {
-            id: 11,
+            id: v1(),
             message:
                'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Exercitationem, molestias sdasdas'
          },
          {
-            id: 12,
+            id: v1(),
             message:
                'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Exercitationem, molestias sdasdas'
          },
          {
-            id: 13,
+            id: v1(),
             message:
                'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Exercitationem, molestias sdasdas'
          },
          {
-            id: 14,
+            id: v1(),
             message:
                'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Exercitationem, molestias '
          }
@@ -128,21 +131,21 @@ export const state: RootStateType = {
    },
    sidebar: {
       friends: [
-         {id: 1, name: 'Polina', avatar: 'https://source.unsplash.com/user/aiony/150x150/'},
-         {id: 2, name: 'Ilya', avatar: 'https://source.unsplash.com/user/chrisjoelcampbell/150x150/'},
-         {id: 3, name: 'Nasty', avatar: 'https://source.unsplash.com/user/cikstefan/150x150/'},
-         {id: 4, name: 'Sasha', avatar: 'https://source.unsplash.com/user/romashilin/150x150/'},
-         {id: 5, name: 'Masha', avatar: 'https://source.unsplash.com/user/houcinencibphotography/150x150/'}
+         {id: v1(), name: 'Polina', avatar: 'https://source.unsplash.com/user/aiony/150x150/'},
+         {id: v1(), name: 'Ilya', avatar: 'https://source.unsplash.com/user/chrisjoelcampbell/150x150/'},
+         {id: v1(), name: 'Nasty', avatar: 'https://source.unsplash.com/user/cikstefan/150x150/'},
+         {id: v1(), name: 'Sasha', avatar: 'https://source.unsplash.com/user/romashilin/150x150/'},
+         {id: v1(), name: 'Masha', avatar: 'https://source.unsplash.com/user/houcinencibphotography/150x150/'}
       ]
    }
 }
 
 export const pushNewPostInState = (newPost: string) => {
-   debugger
    const post: PostsType = {
-      id: 3,
+      id: v1(),
       message: newPost,
       countLike: 3
    };
    state.profilePage.posts.push(post);
+   renderEntireTree(state);
 }
