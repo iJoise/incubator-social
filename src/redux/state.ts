@@ -1,5 +1,8 @@
-import {renderEntireTree} from "../render";
 import {v1} from "uuid";
+
+let renderEntireTree = () => {
+   console.log('state changed')
+}
 
 export type PostsType = {
    id?: string
@@ -149,11 +152,15 @@ export const pushNewPostInState = () => {
       countLike: 3
    };
    state.profilePage.posts = [post, ...state.profilePage.posts]
-   renderEntireTree(state);
+   renderEntireTree();
    state.profilePage.newPostsText = '';
 }
 
 export const changeNewPostInState = (newText: string) => {
    state.profilePage.newPostsText = newText;
-   renderEntireTree(state);
+   renderEntireTree();
+}
+
+export const subscriber = (observer: () => void) => {
+   renderEntireTree = observer;
 }

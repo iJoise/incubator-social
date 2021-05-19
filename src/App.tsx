@@ -17,7 +17,7 @@ type AppPropsType = {
 }
 
 
-const App: React.FC<AppPropsType> = ({state, pushNewPostInState, changeNewPostInState}) => {
+export const App: React.FC<AppPropsType> = ({state, pushNewPostInState, changeNewPostInState}) => {
    return (
       <div className="app-wrapper">
          <Header/>
@@ -39,6 +39,6 @@ const App: React.FC<AppPropsType> = ({state, pushNewPostInState, changeNewPostIn
 };
 
 
-export default App;
+
 
 
