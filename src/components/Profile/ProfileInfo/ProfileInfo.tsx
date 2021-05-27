@@ -16,7 +16,7 @@ export const ProfileInfo = () => {
                alt="this is avatar"
             />
             <div className={style.profile_body}>
-               <h3>Kirill K.</h3>
+               <h3>Kirill Kondratev</h3>
                <p>
                   Date of Birth:
                   <span>27 april</span>

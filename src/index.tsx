@@ -2,18 +2,21 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.scss';
 import {App} from './App';
-import {state, changeNewPostInState, pushNewPostInState, subscriber} from "./redux/state";
+import {store} from "./redux/state";
 import {BrowserRouter} from "react-router-dom";
 
 
 const renderEntireTree = () => {
    ReactDOM.render(
       <BrowserRouter>
-         <App state={state} pushNewPostInState={pushNewPostInState} changeNewPostInState={changeNewPostInState}/>
+         <App
+            store={store}
+            dispatch={store.dispatch.bind(store)}
+         />
       </BrowserRouter>,
       document.getElementById('root')
    );
 }
 
 renderEntireTree();
-subscriber(renderEntireTree);
+store.subscriber(renderEntireTree);

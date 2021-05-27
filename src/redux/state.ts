@@ -1,8 +1,6 @@
 import {v1} from "uuid";
-
-let renderEntireTree = () => {
-   console.log('state changed')
-}
+import {addPostCreator, changeNewPostCreator, profileReducer} from "./profile-reducer";
+import {addMessageCreator, changeNewMessageCreator, dialogReducer} from "./dialog-reducer";
 
 export type PostsType = {
    id?: string
@@ -31,6 +29,7 @@ export type ProfilePageType = {
 export type DialogsPageType = {
    dialogs: Array<DialogsType>
    messages: Array<MessagesType>
+   newMessage: string
 }
 export type SidebarType = {
    friends: Array<FriendsType>
@@ -41,126 +40,156 @@ export type RootStateType = {
    dialogsPage: DialogsPageType
    sidebar: SidebarType
 }
+export type StoreType = {
+   _state: RootStateType
+   _callSubscriber: () => void
+   subscriber: (observer: () => void) => void
+   getState: () => RootStateType
+   dispatch: (action: ActionType) => void
+}
 
-export const state: RootStateType = {
-   profilePage: {
-      posts: [
-         {
-            id: v1(),
-            message: 'Lorem ipsum dolor, sit amet consecrated animistic elicit. Possimus ipsum sit voluptate sapiente ratione vero magnidoloremque modi quit.',
-            countLike: 10
-         },
-         {
-            id: v1(),
-            message: 'Lorem ipsum dolor, sit amet consecrated animistic elicit. Possimus ipsum sit voluptate sapiente ratione vero magnidoloremque modi qui.',
-            countLike: 32
-         }
-      ],
-      newPostsText: ''
+/**
+ * type AddNewPostActionType = {
+ * type: 'ADD-NEW-POST'
+ *}
+ * и
+ * type ChangeNewPostActionType = {
+ * type: 'CHANGE-NEW-POST'
+ * newText: string
+ *}
+ * Заменяем на новый тип. Это тип который возвращает сама ф-я, что бы не дублировать код
+ * addPostActionCreator и changeNewPostActionCreator возвращают типы Экшинов. Что бы эти типы
+ * не дублировались мы используем ReturnType<typeof и имя ф-ии которая возвращает тип>
+ *   Другими словами - ф-я определяет какого типа она будет
+ */
+type AddNewPostActionType = ReturnType<typeof addPostCreator>
+type ChangeNewPostActionType = ReturnType<typeof changeNewPostCreator>
+
+type AddMessageActionType = ReturnType<typeof addMessageCreator>
+type ChangeMessageActionType = ReturnType<typeof changeNewMessageCreator>
+
+export type ActionType = AddNewPostActionType
+   | ChangeNewPostActionType
+   | AddMessageActionType
+   | ChangeMessageActionType
+
+
+export const store: StoreType = {
+   _state: {
+      profilePage: {
+         posts: [
+            {
+               id: v1(),
+               message: 'Lorem ipsum dolor, sit amet consecrated animistic elicit. Possimus ipsum sit voluptate sapiente ratione vero magnidoloremque modi quit.',
+               countLike: 10
+            },
+            {
+               id: v1(),
+               message: 'Lorem ipsum dolor, sit amet consecrated animistic elicit. Possimus ipsum sit voluptate sapiente ratione vero magnidoloremque modi qui.',
+               countLike: 32
+            }
+         ],
+         newPostsText: ''
+      },
+      dialogsPage: {
+         dialogs: [
+            {id: v1(), name: 'Polina', avatar: 'https://source.unsplash.com/user/aiony/150x150/'},
+            {id: v1(), name: 'Ilya', avatar: 'https://source.unsplash.com/user/chrisjoelcampbell/150x150/'},
+            {id: v1(), name: 'Nasty', avatar: 'https://source.unsplash.com/user/cikstefan/150x150/'},
+            {id: v1(), name: 'Sasha', avatar: 'https://source.unsplash.com/user/romashilin/150x150/'},
+            {id: v1(), name: 'Masha', avatar: 'https://source.unsplash.com/user/houcinencibphotography/150x150/'}
+         ],
+         messages: [
+            {
+               id: v1(),
+               message:
+                  'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Exercitationem, molestiassdfsd '
+            },
+            {
+               id: v1(),
+               message:
+                  'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Exercitationem, molestias sdasdas'
+            },
+            {
+               id: v1(),
+               message:
+                  'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Exercitationem, molestias '
+            },
+            {
+               id: v1(),
+               message:
+                  'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Exercitationem, molestias sdasdas'
+            },
+            {
+               id: v1(),
+               message:
+                  'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Exercitationem, molestias sdasdas'
+            },
+            {
+               id: v1(),
+               message:
+                  'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Exercitationem, molestias sdasdas'
+            },
+            {
+               id: v1(),
+               message:
+                  'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Exercitationem, molestias sdasdas'
+            },
+            {
+               id: v1(),
+               message:
+                  'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Exercitationem, molestias sdasdas'
+            },
+            {
+               id: v1(),
+               message:
+                  'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Exercitationem, molestias sdasdas'
+            },
+            {
+               id: v1(),
+               message:
+                  'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Exercitationem, molestias sdasdas'
+            },
+            {
+               id: v1(),
+               message:
+                  'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Exercitationem, molestias sdasdas'
+            },
+            {
+               id: v1(),
+               message:
+                  'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Exercitationem, molestias sdasdas'
+            },
+            {
+               id: v1(),
+               message:
+                  'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Exercitationem, molestias '
+            }
+         ],
+         newMessage: ''
+      },
+      sidebar: {
+         friends: [
+            {id: v1(), name: 'Polina', avatar: 'https://source.unsplash.com/user/aiony/150x150/'},
+            {id: v1(), name: 'Ilya', avatar: 'https://source.unsplash.com/user/chrisjoelcampbell/150x150/'},
+            {id: v1(), name: 'Nasty', avatar: 'https://source.unsplash.com/user/cikstefan/150x150/'},
+            {id: v1(), name: 'Sasha', avatar: 'https://source.unsplash.com/user/romashilin/150x150/'},
+            {id: v1(), name: 'Masha', avatar: 'https://source.unsplash.com/user/houcinencibphotography/150x150/'}
+         ]
+      }
    },
-   dialogsPage: {
-      dialogs: [
-         {id: v1(), name: 'Polina', avatar: 'https://source.unsplash.com/user/aiony/150x150/'},
-         {id: v1(), name: 'Ilya', avatar: 'https://source.unsplash.com/user/chrisjoelcampbell/150x150/'},
-         {id: v1(), name: 'Nasty', avatar: 'https://source.unsplash.com/user/cikstefan/150x150/'},
-         {id: v1(), name: 'Sasha', avatar: 'https://source.unsplash.com/user/romashilin/150x150/'},
-         {id: v1(), name: 'Masha', avatar: 'https://source.unsplash.com/user/houcinencibphotography/150x150/'}
-      ],
-      messages: [
-         {
-            id: v1(),
-            message:
-               'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Exercitationem, molestiassdfsd '
-         },
-         {
-            id: v1(),
-            message:
-               'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Exercitationem, molestias sdasdas'
-         },
-         {
-            id: v1(),
-            message:
-               'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Exercitationem, molestias '
-         },
-         {
-            id: v1(),
-            message:
-               'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Exercitationem, molestias sdasdas'
-         },
-         {
-            id: v1(),
-            message:
-               'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Exercitationem, molestias sdasdas'
-         },
-         {
-            id: v1(),
-            message:
-               'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Exercitationem, molestias sdasdas'
-         },
-         {
-            id: v1(),
-            message:
-               'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Exercitationem, molestias sdasdas'
-         },
-         {
-            id: v1(),
-            message:
-               'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Exercitationem, molestias sdasdas'
-         },
-         {
-            id: v1(),
-            message:
-               'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Exercitationem, molestias sdasdas'
-         },
-         {
-            id: v1(),
-            message:
-               'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Exercitationem, molestias sdasdas'
-         },
-         {
-            id: v1(),
-            message:
-               'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Exercitationem, molestias sdasdas'
-         },
-         {
-            id: v1(),
-            message:
-               'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Exercitationem, molestias sdasdas'
-         },
-         {
-            id: v1(),
-            message:
-               'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Exercitationem, molestias '
-         }
-      ]
+   _callSubscriber() {
+      console.log('state changed')
    },
-   sidebar: {
-      friends: [
-         {id: v1(), name: 'Polina', avatar: 'https://source.unsplash.com/user/aiony/150x150/'},
-         {id: v1(), name: 'Ilya', avatar: 'https://source.unsplash.com/user/chrisjoelcampbell/150x150/'},
-         {id: v1(), name: 'Nasty', avatar: 'https://source.unsplash.com/user/cikstefan/150x150/'},
-         {id: v1(), name: 'Sasha', avatar: 'https://source.unsplash.com/user/romashilin/150x150/'},
-         {id: v1(), name: 'Masha', avatar: 'https://source.unsplash.com/user/houcinencibphotography/150x150/'}
-      ]
+   subscriber(observer) {
+      this._callSubscriber = observer;
+   },
+   getState() {
+      return this._state;
+   },
+   dispatch(action) {
+      this._state.profilePage = profileReducer(this._state.profilePage, action)
+      this._state.dialogsPage = dialogReducer(this._state.dialogsPage, action)
+      this._callSubscriber();
    }
-}
-
-export const pushNewPostInState = () => {
-   const post: PostsType = {
-      id: v1(),
-      message: state.profilePage.newPostsText,
-      countLike: 3
-   };
-   state.profilePage.posts = [post, ...state.profilePage.posts]
-   renderEntireTree();
-   state.profilePage.newPostsText = '';
-}
-
-export const changeNewPostInState = (newText: string) => {
-   state.profilePage.newPostsText = newText;
-   renderEntireTree();
-}
-
-export const subscriber = (observer: () => void) => {
-   renderEntireTree = observer;
 }

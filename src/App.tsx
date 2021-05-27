@@ -7,32 +7,35 @@ import Profile from './components/Profile/Profile';
 import Settings from './components/Settings/Settings';
 import Music from './components/Music/Music';
 import News from './components/News/News';
-import {Route} from "react-router-dom";
-import {RootStateType} from "./redux/state";
+import {Redirect, Route, Switch} from "react-router-dom";
+import {ActionType, StoreType} from "./redux/state";
 
 type AppPropsType = {
-   state: RootStateType
-   pushNewPostInState: () => void
-   changeNewPostInState: (newText: string) => void
+   store: StoreType
+   dispatch: (action: ActionType) => void
 }
 
 
-export const App: React.FC<AppPropsType> = ({state, pushNewPostInState, changeNewPostInState}) => {
+export const App: React.FC<AppPropsType> = ({store, dispatch}) => {
+   const state = store.getState();
    return (
       <div className="app-wrapper">
          <Header/>
          <Navbar friends={state.sidebar.friends}/>
          <main className="app-wrapper-content">
-            <Route path="/dialogs" render={() => <Dialogs dialogs={state.dialogsPage.dialogs}
-                                                          messages={state.dialogsPage.messages}/>}/>
-            <Route path="/profile" render={() => <Profile posts={state.profilePage.posts}
-                                                          newPostsText={state.profilePage.newPostsText}
-                                                          pushNewPostInState={pushNewPostInState}
-                                                          changeNewPostInState={changeNewPostInState}
-            />}/>
-            <Route path="/news" render={() => <News/>}/>
-            <Route path="/music" render={() => <Music/>}/>
-            <Route path="/settings" render={() => <Settings/>}/>
+            <Switch>
+               <Route path={'/'} exact render={() => <Redirect to={'/profile'}/>}/>
+               <Route path="/dialogs" render={() => <Dialogs dialogsPage={state.dialogsPage}
+                                                             dispatch={dispatch}
+               />}/>
+               <Route path="/profile" render={() => <Profile posts={state.profilePage.posts}
+                                                             newPostsText={state.profilePage.newPostsText}
+                                                             dispatch={dispatch}
+               />}/>
+               <Route path="/news" render={() => <News/>}/>
+               <Route path="/music" render={() => <Music/>}/>
+               <Route path="/settings" render={() => <Settings/>}/>
+            </Switch>
          </main>
       </div>
    );

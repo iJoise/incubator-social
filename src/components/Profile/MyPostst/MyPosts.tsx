@@ -1,35 +1,49 @@
-import React, {ChangeEvent} from 'react';
+import React, {ChangeEvent, KeyboardEvent} from 'react';
 import style from './MyPosts.module.scss';
 import {Post} from "./Post/Posts";
-import {PostsType} from "../../../redux/state";
+import {addPostCreator, changeNewPostCreator} from "../../../redux/profile-reducer";
+import {PostsType, ActionType} from "../../../redux/state";
 
 type MyPostsPropsType = {
    posts: PostsType[]
-   pushNewPostInState: () => void
    newPostsText: string
-   changeNewPostInState: (newText: string) => void
+   dispatch: (action: ActionType) => void
 }
 
-export const MyPosts:React.FC<MyPostsPropsType> = ({posts, pushNewPostInState, newPostsText, changeNewPostInState}) => {
-   const postElements = posts.map(p => <Post key={p.id} message={p.message} countLike={p.countLike} />);
+export const MyPosts: React.FC<MyPostsPropsType> = ({posts, newPostsText, dispatch}) => {
+   const postElements = posts.map(p => <Post key={p.id} message={p.message} countLike={p.countLike}/>);
 
    const addNewPosts = () => {
-         pushNewPostInState();
+      if (newPostsText.trim() === '') {
+         return;
+      }
+      dispatch(addPostCreator());
    }
 
-   const onPostsChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-         const text = e.currentTarget.value
-         changeNewPostInState(text.trim())
+   const onPostsChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
+
+      const text = e.currentTarget.value
+      dispatch(changeNewPostCreator(text));
+   }
+
+   const onPressEnterToSendPostHandler = (event: KeyboardEvent<HTMLTextAreaElement>) => {
+      if (newPostsText.trim() === '') {
+         return;
+      }
+      if (event.key === 'Enter') {
+         dispatch(addPostCreator());
+      }
    }
 
    return (
       <>
          <div className={style.newPost}>
-            <label >My post</label>
+            <label>My post</label>
             <textarea
                placeholder="your news..."
                value={newPostsText}
-               onChange={onPostsChange}
+               onChange={onPostsChangeHandler}
+               onKeyPress={onPressEnterToSendPostHandler}
             />
             <div>
                <button className={style.btn} onClick={addNewPosts}>Send</button>
