@@ -8,16 +8,16 @@ import Settings from './components/Settings/Settings';
 import Music from './components/Music/Music';
 import News from './components/News/News';
 import {Redirect, Route, Switch} from "react-router-dom";
-import {ActionType, StoreType} from "./redux/state";
+import {ActionType} from "./redux/state";
+import {AppStateType} from "./redux/redux-store";
 
 type AppPropsType = {
-   store: StoreType
+   state: AppStateType
    dispatch: (action: ActionType) => void
 }
 
 
-export const App: React.FC<AppPropsType> = ({store, dispatch}) => {
-   const state = store.getState();
+export const App: React.FC<AppPropsType> = ({state, dispatch}) => {
    return (
       <div className="app-wrapper">
          <Header/>
@@ -25,7 +25,7 @@ export const App: React.FC<AppPropsType> = ({store, dispatch}) => {
          <main className="app-wrapper-content">
             <Switch>
                <Route path={'/'} exact render={() => <Redirect to={'/profile'}/>}/>
-               <Route path="/dialogs" render={() => <Dialogs dialogsPage={state.dialogsPage}
+               <Route path="/dialogs" render={() => <Dialogs dialogsPage={state.dialogPage}
                                                              dispatch={dispatch}
                />}/>
                <Route path="/profile" render={() => <Profile posts={state.profilePage.posts}

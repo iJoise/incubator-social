@@ -1,8 +1,10 @@
 import React from 'react';
 import style from './Posts.module.scss';
-import {PostsType} from "../../../../redux/state";
+import {PostsType} from "../../../../redux/profile-reducer";
 
-export const Post: React.FC<PostsType> = ({message,id,countLike}) => {
+
+
+export const Post: React.FC<PostsType> = ({message,countLike}) => {
    return (
       <div className={style.post}>
          <div className={style.top}>

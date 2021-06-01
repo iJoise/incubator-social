@@ -1,12 +1,37 @@
-import {ActionType, PostsType, ProfilePageType} from "./state";
+import {ActionType} from "./state";
 import {v1} from "uuid";
+
+
+export type PostsType = {
+   id?: string
+   message: string
+   countLike: number
+}
+export type ProfilePageType = {
+   posts: Array<PostsType>
+   newPostsText: string
+}
 
 const ADD_NEW_POST = "ADD-NEW-POST";
 const CHANGE_NEW_POST = "CHANGE-NEW-POST";
 
+const initialState: ProfilePageType = {
+   posts: [
+      {
+         id: v1(),
+         message: 'Lorem ipsum dolor, sit amet consecrated animistic elicit. Possimus ipsum sit voluptate sapiente ratione vero magnidoloremque modi quit.',
+         countLike: 10
+      },
+      {
+         id: v1(),
+         message: 'Lorem ipsum dolor, sit amet consecrated animistic elicit. Possimus ipsum sit voluptate sapiente ratione vero magnidoloremque modi qui.',
+         countLike: 32
+      }
+   ] as PostsType[],
+   newPostsText: ''
+}
 
-
-export const profileReducer = (state: ProfilePageType, action: ActionType) => {
+export const profileReducer = (state = initialState, action: ActionType) => {
    switch (action.type) {
       case ADD_NEW_POST:
          const post: PostsType = {
@@ -14,7 +39,10 @@ export const profileReducer = (state: ProfilePageType, action: ActionType) => {
             message: state.newPostsText,
             countLike: 3
          };
-         state.posts.unshift(post);
+         state.posts = [
+            post,
+            ...state.posts
+         ]
          state.newPostsText = '';
          return state;
       case CHANGE_NEW_POST:

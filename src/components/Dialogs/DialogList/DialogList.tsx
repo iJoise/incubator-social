@@ -1,7 +1,7 @@
-import {DialogsType} from "../../../redux/state";
 import React from "react";
 import DialogItem from "./DialogItem/DialogItem";
 import style from "../Dialogs.module.scss";
+import {DialogsType} from "../../../redux/dialog-reducer";
 
 type DialogListPropsType = {
    dialogs: DialogsType[]

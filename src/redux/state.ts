@@ -1,49 +1,50 @@
 import {v1} from "uuid";
 import {addPostCreator, changeNewPostCreator, profileReducer} from "./profile-reducer";
 import {addMessageCreator, changeNewMessageCreator, dialogReducer} from "./dialog-reducer";
+import {sidebarReducer} from "./sidebar-reducer";
 
-export type PostsType = {
+type PostsType = {
    id?: string
    message: string
    countLike: number
 }
-export type DialogsType = {
+type DialogsType = {
    id: string
    name: string
    avatar: string
 }
-export type MessagesType = {
+type MessagesType = {
    id: string
    message: string
 }
-export type FriendsType = {
+type FriendsType = {
    id: string
    name: string
    avatar: string
 }
 
-export type ProfilePageType = {
+type ProfilePageType = {
    posts: Array<PostsType>
    newPostsText: string
 }
-export type DialogsPageType = {
+type DialogsPageType = {
    dialogs: Array<DialogsType>
    messages: Array<MessagesType>
    newMessage: string
 }
-export type SidebarType = {
+type SidebarType = {
    friends: Array<FriendsType>
 }
 
-export type RootStateType = {
+type RootStateType = {
    profilePage: ProfilePageType
    dialogsPage: DialogsPageType
    sidebar: SidebarType
 }
-export type StoreType = {
+type StoreType = {
    _state: RootStateType
    _callSubscriber: () => void
-   subscriber: (observer: () => void) => void
+   subscribe: (observer: () => void) => void
    getState: () => RootStateType
    dispatch: (action: ActionType) => void
 }
@@ -181,7 +182,7 @@ export const store: StoreType = {
    _callSubscriber() {
       console.log('state changed')
    },
-   subscriber(observer) {
+   subscribe(observer) {
       this._callSubscriber = observer;
    },
    getState() {
@@ -190,6 +191,7 @@ export const store: StoreType = {
    dispatch(action) {
       this._state.profilePage = profileReducer(this._state.profilePage, action)
       this._state.dialogsPage = dialogReducer(this._state.dialogsPage, action)
+      this._state.sidebar = sidebarReducer(this._state.sidebar, action)
       this._callSubscriber();
    }
 }

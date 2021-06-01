@@ -1,8 +1,9 @@
 import React from 'react';
 import style from './Dialogs.module.scss';
-import {ActionType, DialogsPageType} from "../../redux/state";
+import {ActionType} from "../../redux/state";
 import {DialogList} from "./DialogList/DialogList";
 import {MessagesList} from "./MessagesList/MessagesList";
+import {DialogsPageType} from "../../redux/dialog-reducer";
 
 type DialogsPropsType = {
    dispatch: (action: ActionType) => void

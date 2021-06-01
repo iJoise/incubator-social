@@ -1,8 +1,8 @@
-import React, {ChangeEvent} from "react";
+import React, {ChangeEvent, KeyboardEvent} from "react";
 import Message from "./Message/Message";
 import style from "../Dialogs.module.scss";
-import {addMessageCreator, changeNewMessageCreator} from "../../../redux/dialog-reducer";
-import {ActionType, MessagesType} from "../../../redux/state";
+import {addMessageCreator, changeNewMessageCreator, MessagesType} from "../../../redux/dialog-reducer";
+import {ActionType} from "../../../redux/state";
 
 
 type MessagesListPropsType = {
@@ -24,7 +24,16 @@ export const MessagesList: React.FC<MessagesListPropsType> = ({messages, newMess
    }
 
    const sendMessageHandler = () => {
+      if (newMessage.trim() === '') {
+         return;
+      }
       dispatch(addMessageCreator());
+   }
+
+   const onPressEnterToSend = (e: KeyboardEvent<HTMLTextAreaElement>) => {
+      if (e.key === 'Enter') {
+         sendMessageHandler();
+      }
    }
 
    return (
@@ -46,6 +55,7 @@ export const MessagesList: React.FC<MessagesListPropsType> = ({messages, newMess
                onChange={onChangeMessagesHandler}
                className={style.messageText}
                placeholder={'Введите сообщение...'}
+               onKeyPress={onPressEnterToSend}
             />
             <button onClick={sendMessageHandler}><i className={sendButton}/></button>
             <i className="fa fa-microphone"/>

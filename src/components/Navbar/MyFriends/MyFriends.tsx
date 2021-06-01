@@ -1,14 +1,12 @@
 import React from 'react';
 import style from "./MyFriends.module.scss";
 import Friend from "./Firend/Friend";
+import {SidebarType} from "../../../redux/sidebar-reducer";
 
-type MyFriendsPropsType = {
-   friends: Array<any>
-}
 
-const MyFriends = (props: MyFriendsPropsType) => {
+const MyFriends: React.FC<SidebarType> = ({friends}) => {
 
-   const myFriendList = props.friends.map(f => <Friend key={f.id} name={f.name} id={f.id} avatar={f.avatar}/>);
+   const myFriendList = friends.map(f => <Friend key={f.id} name={f.name} id={f.id} avatar={f.avatar}/>);
 
    return (
       <div className={style.friends}>

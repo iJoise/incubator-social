@@ -1,17 +1,13 @@
 import React from 'react';
 import style from "./Friend.module.scss";
+import {FriendsType} from "../../../../redux/sidebar-reducer";
 
-type FriendPropsType = {
-   id: number,
-   name: string,
-   avatar: string
-}
 
-const Friend = (props: FriendPropsType) => {
+const Friend: React.FC<FriendsType> = ({avatar, name}) => {
    return (
       <div className={style.friend}>
-         <img src={props.avatar} alt="avatar"/>
-         <p>{props.name}</p>
+         <img src={avatar} alt="avatar"/>
+         <p>{name}</p>
       </div>
    );
 };
