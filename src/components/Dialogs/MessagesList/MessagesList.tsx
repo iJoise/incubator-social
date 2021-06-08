@@ -1,18 +1,23 @@
 import React, {ChangeEvent, KeyboardEvent} from "react";
 import Message from "./Message/Message";
 import style from "../Dialogs.module.scss";
-import {addMessageCreator, changeNewMessageCreator, MessagesType} from "../../../redux/dialog-reducer";
-import {ActionType} from "../../../redux/state";
+import {MessageType} from "../../../redux/dialog-reducer";
 
 
 type MessagesListPropsType = {
-   messages: MessagesType[]
+   messages: MessageType[]
    newMessage: string
-   dispatch: (action: ActionType) => void
+   onChangeMessage: (message: string) => void
+   sendMessage: () => void
 }
 
 
-export const MessagesList: React.FC<MessagesListPropsType> = ({messages, newMessage, dispatch}) => {
+export const MessagesList: React.FC<MessagesListPropsType> = (
+   {messages,
+      newMessage,
+      onChangeMessage,
+      sendMessage
+   }) => {
 
    const messagesElement = messages.map(m => <Message key={m.id} message={m.message} id={m.id}/>);
 
@@ -20,14 +25,11 @@ export const MessagesList: React.FC<MessagesListPropsType> = ({messages, newMess
 
    const onChangeMessagesHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
       const message = e.currentTarget.value
-      dispatch(changeNewMessageCreator(message));
+      onChangeMessage(message)
    }
 
    const sendMessageHandler = () => {
-      if (newMessage.trim() === '') {
-         return;
-      }
-      dispatch(addMessageCreator());
+      sendMessage();
    }
 
    const onPressEnterToSend = (e: KeyboardEvent<HTMLTextAreaElement>) => {

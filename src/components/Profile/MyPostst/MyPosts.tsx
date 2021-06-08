@@ -1,37 +1,39 @@
 import React, {ChangeEvent, KeyboardEvent} from 'react';
 import style from './MyPosts.module.scss';
 import {Post} from "./Post/Posts";
-import {addPostCreator, changeNewPostCreator, PostsType} from "../../../redux/profile-reducer";
-import {ActionType} from "../../../redux/state";
+import {PostType} from "../../../redux/profile-reducer";
 
 type MyPostsPropsType = {
-   posts: PostsType[]
+   posts: PostType[]
    newPostsText: string
-   dispatch: (action: ActionType) => void
+   onPostsChange: (text: string) => void
+   addNewPost: () => void
 }
 
-export const MyPosts: React.FC<MyPostsPropsType> = ({posts, newPostsText, dispatch}) => {
+export const MyPosts: React.FC<MyPostsPropsType> = (
+   {posts,
+      newPostsText,
+      addNewPost,
+      onPostsChange
+   }) => {
+
    const postElements = posts.map(p => <Post key={p.id} message={p.message} countLike={p.countLike}/>);
 
-   const addNewPosts = () => {
+   const addNewPostsHandler = () => {
       if (newPostsText.trim() === '') {
          return;
       }
-      dispatch(addPostCreator());
+      addNewPost()
    }
 
    const onPostsChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
-
       const text = e.currentTarget.value
-      dispatch(changeNewPostCreator(text));
+      onPostsChange(text)
    }
 
    const onPressEnterToSendPostHandler = (event: KeyboardEvent<HTMLTextAreaElement>) => {
-      if (newPostsText.trim() === '') {
-         return;
-      }
       if (event.key === 'Enter') {
-         dispatch(addPostCreator());
+         addNewPostsHandler();
       }
    }
 
@@ -46,7 +48,7 @@ export const MyPosts: React.FC<MyPostsPropsType> = ({posts, newPostsText, dispat
                onKeyPress={onPressEnterToSendPostHandler}
             />
             <div>
-               <button className={style.btn} onClick={addNewPosts}>Send</button>
+               <button className={style.btn} onClick={addNewPostsHandler}>Send</button>
             </div>
          </div>
          {postElements}

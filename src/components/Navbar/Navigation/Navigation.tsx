@@ -3,7 +3,7 @@ import style from "./Navigation.module.scss";
 import {NavLink} from "react-router-dom";
 
 
-const Navigation = () => {
+export const Navigation = () => {
    return (
       <>
          <nav className={style.nav}>
@@ -18,6 +18,12 @@ const Navigation = () => {
                   <NavLink to="/dialogs" activeClassName={style.activeLink}>
                      <i className="fa fa-envelope"/>
                      Message
+                  </NavLink>
+               </li>
+               <li>
+                  <NavLink to="/users" activeClassName={style.activeLink}>
+                     <i className="fa fa-user-plus"/>
+                     Users
                   </NavLink>
                </li>
                <li>
@@ -43,5 +49,3 @@ const Navigation = () => {
       </>
    );
 };
-
-export default Navigation;

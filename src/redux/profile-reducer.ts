@@ -1,14 +1,14 @@
-import {ActionType} from "./state";
 import {v1} from "uuid";
+import {ActionType} from "./redux-store";
 
 
-export type PostsType = {
+export type PostType = {
    id?: string
    message: string
    countLike: number
 }
 export type ProfilePageType = {
-   posts: Array<PostsType>
+   posts: Array<PostType>
    newPostsText: string
 }
 
@@ -27,34 +27,51 @@ const initialState: ProfilePageType = {
          message: 'Lorem ipsum dolor, sit amet consecrated animistic elicit. Possimus ipsum sit voluptate sapiente ratione vero magnidoloremque modi qui.',
          countLike: 32
       }
-   ] as PostsType[],
+   ] as PostType[],
    newPostsText: ''
 }
 
 export const profileReducer = (state = initialState, action: ActionType) => {
    switch (action.type) {
       case ADD_NEW_POST:
-         const post: PostsType = {
+         const post: PostType = {
             id: v1(),
             message: state.newPostsText,
             countLike: 3
          };
-         state.posts = [
-            post,
-            ...state.posts
-         ]
-         state.newPostsText = '';
-         return state;
+         return {
+            ...state,
+            newPostsText: '',
+            posts: [...state.posts, post]
+         }
       case CHANGE_NEW_POST:
-         state.newPostsText = action.newText;
-         return state;
+         return {
+            ...state,
+            newPostsText: action.newText
+         }
       default:
          return state;
    }
 }
 
-export const addPostCreator = () => ({type: ADD_NEW_POST} as const);
-export const changeNewPostCreator = (newText: string) => ({
+export const addPostAC = () => ({type: ADD_NEW_POST} as const);
+export const changeNewPostAC = (newText: string) => ({
    type: CHANGE_NEW_POST,
    newText: newText
 } as const);
+/**
+ * type AddNewPostActionType = {
+ * type: 'ADD-NEW-POST'
+ *}
+ * и
+ * type ChangeNewPostActionType = {
+ * type: 'CHANGE-NEW-POST'
+ * newText: string
+ *}
+ * Заменяем на новый тип. Это тип который возвращает сама ф-я, что бы не дублировать код
+ * addPostActionCreator и changeNewPostActionCreator возвращают типы Экшинов. Что бы эти типы
+ * не дублировались мы используем ReturnType<typeof и имя ф-ии которая возвращает тип>
+ *   Другими словами - ф-я определяет какого типа она будет
+ */
+export type AddNewPostActionType = ReturnType<typeof addPostAC>
+export type ChangeNewPostActionType = ReturnType<typeof changeNewPostAC>

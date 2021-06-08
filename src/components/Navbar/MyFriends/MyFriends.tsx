@@ -4,7 +4,7 @@ import Friend from "./Firend/Friend";
 import {SidebarType} from "../../../redux/sidebar-reducer";
 
 
-const MyFriends: React.FC<SidebarType> = ({friends}) => {
+export const MyFriends: React.FC<SidebarType> = ({friends}) => {
 
    const myFriendList = friends.map(f => <Friend key={f.id} name={f.name} id={f.id} avatar={f.avatar}/>);
 
@@ -20,4 +20,3 @@ const MyFriends: React.FC<SidebarType> = ({friends}) => {
    );
 };
 
-export default MyFriends;

@@ -1,5 +1,5 @@
-import {ActionType} from "./state";
 import {v1} from "uuid";
+import {ActionType} from "./redux-store";
 
 
 export type DialogsType = {
@@ -7,13 +7,13 @@ export type DialogsType = {
    name: string
    avatar: string
 }
-export type MessagesType = {
+export type MessageType = {
    id: string
    message: string
 }
 export type DialogsPageType = {
    dialogs: Array<DialogsType>
-   messages: Array<MessagesType>
+   messages: Array<MessageType>
    newMessage: string
 }
 
@@ -94,33 +94,37 @@ const initialState: DialogsPageType = {
          message:
             'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Exercitationem, molestias '
       }
-   ] as MessagesType[],
+   ] as MessageType[],
    newMessage: ''
 };
 
-export const dialogReducer = (state = initialState, action: ActionType) => {
+export const dialogReducer = (state = initialState, action: ActionType): DialogsPageType => {
    switch (action.type) {
       case ADD_NEW_MESSAGE:
-         const message: MessagesType = {
+         const message: MessageType = {
             id: v1(),
             message: state.newMessage,
          };
-         state.messages = [
-            ...state.messages,
-            message
-         ]
-         state.newMessage = '';
-         return state;
+         return {
+            ...state,
+            newMessage: '',
+            messages: [...state.messages, message]
+         }
       case CHANGE_NEW_MESSAGE:
-         state.newMessage = action.newMessage;
-         return state;
+         return {
+            ...state,
+            newMessage: action.newMessage
+         }
       default:
          return state;
    }
 }
 
-export const addMessageCreator = () => ({type: ADD_NEW_MESSAGE} as const);
-export const changeNewMessageCreator = (newMessage: string) => ({
+export const addMessageAC = () => ({type: ADD_NEW_MESSAGE} as const);
+export const changeNewMessageAC = (newMessage: string) => ({
    type: CHANGE_NEW_MESSAGE,
    newMessage: newMessage
 } as const);
+
+export type AddMessageActionType = ReturnType<typeof addMessageAC>
+export type ChangeMessageActionType = ReturnType<typeof changeNewMessageAC>

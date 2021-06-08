@@ -1,19 +1,16 @@
 import React from 'react';
 import style from './Navbar.module.scss';
-import Navigation from "./Navigation/Navigation";
-import MyFriends from "./MyFriends/MyFriends";
-import {SidebarType} from "../../redux/sidebar-reducer";
+import {Navigation} from "./Navigation/Navigation";
+import {MyFriendsContainer} from "./MyFriends/MyFriendsContainer";
 
 
-const Navbar: React.FC<SidebarType> = ({friends}) => {
+export const Navbar = () => {
    return (
       <aside className={style.aside}>
          <Navigation/>
-         <MyFriends friends={friends}/>
+         <MyFriendsContainer />
       </aside>
    );
 };
 
 
-
-export default Navbar;

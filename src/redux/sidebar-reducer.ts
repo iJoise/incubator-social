@@ -1,5 +1,5 @@
-import {ActionType} from "./state";
 import {v1} from "uuid";
+import {ActionType} from "./redux-store";
 
 
 export type FriendsType = {

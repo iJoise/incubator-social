@@ -1,7 +1,8 @@
 import {v1} from "uuid";
-import {addPostCreator, changeNewPostCreator, profileReducer} from "./profile-reducer";
-import {addMessageCreator, changeNewMessageCreator, dialogReducer} from "./dialog-reducer";
+import {profileReducer} from "./profile-reducer";
+import {dialogReducer} from "./dialog-reducer";
 import {sidebarReducer} from "./sidebar-reducer";
+import {ActionType} from "./redux-store";
 
 type PostsType = {
    id?: string
@@ -22,7 +23,6 @@ type FriendsType = {
    name: string
    avatar: string
 }
-
 type ProfilePageType = {
    posts: Array<PostsType>
    newPostsText: string
@@ -35,12 +35,12 @@ type DialogsPageType = {
 type SidebarType = {
    friends: Array<FriendsType>
 }
-
 type RootStateType = {
    profilePage: ProfilePageType
    dialogsPage: DialogsPageType
    sidebar: SidebarType
 }
+
 type StoreType = {
    _state: RootStateType
    _callSubscriber: () => void
@@ -48,31 +48,6 @@ type StoreType = {
    getState: () => RootStateType
    dispatch: (action: ActionType) => void
 }
-
-/**
- * type AddNewPostActionType = {
- * type: 'ADD-NEW-POST'
- *}
- * и
- * type ChangeNewPostActionType = {
- * type: 'CHANGE-NEW-POST'
- * newText: string
- *}
- * Заменяем на новый тип. Это тип который возвращает сама ф-я, что бы не дублировать код
- * addPostActionCreator и changeNewPostActionCreator возвращают типы Экшинов. Что бы эти типы
- * не дублировались мы используем ReturnType<typeof и имя ф-ии которая возвращает тип>
- *   Другими словами - ф-я определяет какого типа она будет
- */
-type AddNewPostActionType = ReturnType<typeof addPostCreator>
-type ChangeNewPostActionType = ReturnType<typeof changeNewPostCreator>
-
-type AddMessageActionType = ReturnType<typeof addMessageCreator>
-type ChangeMessageActionType = ReturnType<typeof changeNewMessageCreator>
-
-export type ActionType = AddNewPostActionType
-   | ChangeNewPostActionType
-   | AddMessageActionType
-   | ChangeMessageActionType
 
 
 export const store: StoreType = {
