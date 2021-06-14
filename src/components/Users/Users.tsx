@@ -51,37 +51,35 @@ export const Users: React.FC<UsersPropsType> = ({users, setUsers, unFollow, foll
    }
 
    const usersList = users.map(u => {
-         return <div key={u.id}>
-      <span>
-         <div>
-            <img src={u.avatarURL} alt={'avatar'}/>
-         </div>
-      </span>
-            <span>
-         {u.followed
-            ? <button onClick={() => unFollow(u.id)}>Unfollow</button>
-            : <button onClick={() => follow(u.id)}>Folow</button>}
+         return (
+            <div key={u.id} className={s.user__body}>
+               <div className={s.user__img}>
+                  <img src={u.avatarURL} alt={'avatar'}/>
+               </div>
+               <div className={s.user__item}>
+                  <div className={s.user__info}>
+                     <div className={s.user__name}>{u.fullName}</div>
+                     <div className={s.user__status}>{u.status}</div>
+                  </div>
+                  <div className={s.user__button}>
+                     {u.followed
+                        ? <button className={s.btn} onClick={() => unFollow(u.id)}>Unfollow</button>
+                        : <button className={`${s.btn} ${s.btn__bl}`} onClick={() => follow(u.id)}>Folow</button>}
 
-      </span>
-            <span>
-         <span>
-            <div>{u.fullName}</div>
-            <div>{u.status}</div>
-         </span>
-      </span>
-            <span>
-         <span>
-            <div>{u.location.country}</div>
-            <div>{u.location.city}</div>
-         </span>
-      </span>
-         </div>
+                  </div>
+               </div>
+               <div className={s.user__location}>
+                  <div>{'u.location.country'}</div>
+                  <div>{'u.location.city'}</div>
+               </div>
+            </div>
+         )
       }
    )
 
 
    return (
-      <div>
+      <div className={s.user}>
          {usersList}
       </div>
    )
