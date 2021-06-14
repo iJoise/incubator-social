@@ -11,8 +11,8 @@ type UsersMapStateToPropsType = {
 }
 
 type UserMapDispatchToPropsType = {
-   follow: (userId: string) => void
-   unFollow: (userId: string) => void
+   follow: (userId: number) => void
+   unFollow: (userId: number) => void
    setUsers: (users: UsersType[]) => void
 }
 
@@ -20,7 +20,7 @@ type UserMapDispatchToPropsType = {
 
 const mapStateToProps = (state: AppStateType): UsersMapStateToPropsType => {
    return {
-      users: state.usersPage.users
+      users: state.usersPage.items
    }
 }
 
