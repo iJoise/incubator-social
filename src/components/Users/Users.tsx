@@ -9,19 +9,46 @@ type UsersPropsType = {
    follow: (userId: number) => void
    unFollow: (userId: number) => void
    setUsers: (users: UsersType[]) => void
+   totalUsersCount: number
+   pageSize: number
+   currentPage: number
+   setCurrentPage: (pageNumber: number) => void
+   setTotalUsersCount: (totalUsersCount: number) => void
 }
 
 export class Users extends React.Component<UsersPropsType> {
 
    componentDidMount() {
-      axios.get('https://social-network.samuraijs.com/api/1.0/users')
+      axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`)
+         .then((response: AxiosResponse<UsersPageType>) => {
+            this.props.setUsers(response.data.items)
+            this.props.setTotalUsersCount(response.data.totalCount)
+         });
+   }
+
+   onPageChanged = (pageNumber: number) => {
+      this.props.setCurrentPage(pageNumber)
+      axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.pageSize}`)
          .then((response: AxiosResponse<UsersPageType>) => {
             this.props.setUsers(response.data.items)
          });
    }
 
    render() {
-      let {users, unFollow, follow} = this.props;
+      let {
+         users,
+         unFollow,
+         follow,
+         totalUsersCount,
+         pageSize,
+         currentPage,
+      } = this.props;
+
+      const pageCount = Math.ceil(totalUsersCount / pageSize);
+      const pages = [];
+      for (let i = 1; i <= pageCount; i++) {
+         pages.push(i);
+      }
 
       const usersList = users.map(u => {
             return (
@@ -37,7 +64,8 @@ export class Users extends React.Component<UsersPropsType> {
                      <div className={s.user__button}>
                         {u.followed
                            ? <button className={s.btn} onClick={() => unFollow(u.id)}>Unfollow</button>
-                           : <button className={`${s.btn} ${s.btn__bl}`} onClick={() => follow(u.id)}>Follow</button>}
+                           : <button className={`${s.btn} ${s.btn__bl}`}
+                                     onClick={() => follow(u.id)}>Follow</button>}
 
                      </div>
                   </div>
@@ -52,7 +80,20 @@ export class Users extends React.Component<UsersPropsType> {
 
       return (
          <div className={s.user}>
+
             {usersList}
+            <div className={s.paginationContainer}>
+               {
+                  pages.map(p => {
+                     return <div key={p}
+                                 className={currentPage === p ? `${s.pagination} ${s.selected}` : s.pagination}
+                                 onClick={() => {
+                                    this.onPageChanged(p)
+                                 }}
+                     >{p}</div>
+                  })
+               }
+            </div>
          </div>
       )
    }

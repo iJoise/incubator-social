@@ -2,7 +2,13 @@ import {combineReducers, createStore} from "redux";
 import {AddMessageActionType, ChangeMessageActionType, dialogReducer} from "./dialog-reducer";
 import {AddNewPostActionType, ChangeNewPostActionType, profileReducer} from "./profile-reducer";
 import {sidebarReducer} from "./sidebar-reducer";
-import {FollowActionType, SetUsersActionType, UnfollowActionType, usersReducer} from "./users-reducer";
+import {
+   FollowActionType,
+   SetCurrentPageActionTypeType, SetTotalUsersCountActionType,
+   SetUsersActionType,
+   UnfollowActionType,
+   usersReducer
+} from "./users-reducer";
 
 const rootReducer = combineReducers({
    dialogPage: dialogReducer,
@@ -23,3 +29,5 @@ export type ActionType = AddNewPostActionType
    | FollowActionType
    | UnfollowActionType
    | SetUsersActionType
+   | SetCurrentPageActionTypeType
+   | SetTotalUsersCountActionType
