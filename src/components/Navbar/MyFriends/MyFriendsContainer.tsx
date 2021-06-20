@@ -13,12 +13,7 @@ const mapStateToProps = (state: AppStateType): FriendsMapStateToPropsType => {
    }
 }
 
-const mapDispatchToProps = () => {
-   return {
 
-   }
-}
-
-export const MyFriendsContainer = connect(mapStateToProps, mapDispatchToProps)(MyFriends)
+export const MyFriendsContainer = connect(mapStateToProps, {})(MyFriends)
 
 

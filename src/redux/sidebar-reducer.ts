@@ -1,6 +1,9 @@
 import {v1} from "uuid";
-import {ActionType} from "./redux-store";
 
+
+type ActionType = {
+
+}
 
 export type FriendsType = {
    id: string

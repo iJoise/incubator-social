@@ -2,7 +2,6 @@ import {addMessageAC, changeNewMessageAC, MessageType} from "../../../redux/dial
 import {MessagesList} from "./MessagesList";
 import {AppStateType} from "../../../redux/redux-store";
 import {connect} from "react-redux";
-import {Dispatch} from "redux";
 
 
 type MessageListMapStateToPropsType = {
@@ -10,10 +9,6 @@ type MessageListMapStateToPropsType = {
    newMessage: string
 }
 
-type MapDispatchToPropsType = {
-   sendMessage: () => void
-   onChangeMessage: (message: string) => void
-}
 
 const mapStateToProps = (state: AppStateType): MessageListMapStateToPropsType => {
    return {
@@ -22,15 +17,8 @@ const mapStateToProps = (state: AppStateType): MessageListMapStateToPropsType =>
    }
 }
 
-const mapDispatchToProps = (dispatch: Dispatch):MapDispatchToPropsType => {
-   return {
-      sendMessage: () => {
-         dispatch(addMessageAC())
-      },
-      onChangeMessage: (message: string) => {
-         dispatch(changeNewMessageAC(message));
-      }
-   }
-}
 
-export const MessagesListContainer = connect(mapStateToProps, mapDispatchToProps)(MessagesList)
+export const MessagesListContainer = connect(mapStateToProps, {
+   sendMessage: addMessageAC,
+   onChangeMessage: changeNewMessageAC,
+})(MessagesList)

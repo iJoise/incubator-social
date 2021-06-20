@@ -13,10 +13,5 @@ const mapStateToProps = (state: AppStateType) => {
    }
 }
 
-const mapDispatchToProps = () => {
-   return {
 
-   }
-}
-
-export const DialogListContainer = connect(mapStateToProps, mapDispatchToProps)(DialogList)
+export const DialogListContainer = connect(mapStateToProps, {})(DialogList)

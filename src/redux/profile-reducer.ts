@@ -1,19 +1,47 @@
-import {v1} from "uuid";
-import {ActionType} from "./redux-store";
+import {v1} from 'uuid';
+import {PhotosType} from "./users-reducer";
 
+const ADD_NEW_POST = 'ADD-NEW-POST';
+const CHANGE_NEW_POST = 'CHANGE-NEW-POST';
+const SET_USER_PROFILE = 'SET_USER_PROFILE';
 
 export type PostType = {
    id?: string
    message: string
    countLike: number
 }
+
+type ContactsType = {
+   facebook: string | null
+   website: string | null
+   vk: string | null
+   twitter: string | null
+   instagram: string | null
+   youtube: string | null
+   github: string | null
+   mainLink: string | null
+}
+
+export type UserProfileType = {
+   aboutMe: string | null
+   contacts: ContactsType
+   lookingForAJob: boolean
+   lookingForAJobDescription: string | null
+   fullName: string
+   userId: number
+   photos: PhotosType
+}
+
 export type ProfilePageType = {
    posts: Array<PostType>
    newPostsText: string
+   profile: UserProfileType | null
 }
 
-const ADD_NEW_POST = "ADD-NEW-POST";
-const CHANGE_NEW_POST = "CHANGE-NEW-POST";
+type ActionType = AddNewPostActionType
+   | ChangeNewPostActionType
+   | SetUserProfileType
+
 
 const initialState: ProfilePageType = {
    posts: [
@@ -28,10 +56,11 @@ const initialState: ProfilePageType = {
          countLike: 32
       }
    ] as PostType[],
-   newPostsText: ''
+   newPostsText: '',
+   profile: null,
 }
 
-export const profileReducer = (state = initialState, action: ActionType) => {
+export const profileReducer = (state = initialState, action: ActionType): ProfilePageType => {
    switch (action.type) {
       case ADD_NEW_POST:
          const post: PostType = {
@@ -49,16 +78,20 @@ export const profileReducer = (state = initialState, action: ActionType) => {
             ...state,
             newPostsText: action.newText
          }
+      case SET_USER_PROFILE:
+         return {
+            ...state,
+            profile: action.profile
+         }
       default:
          return state;
    }
 }
 
 export const addPostAC = () => ({type: ADD_NEW_POST} as const);
-export const changeNewPostAC = (newText: string) => ({
-   type: CHANGE_NEW_POST,
-   newText: newText
-} as const);
+export const changeNewPostAC = (newText: string) => ({type: CHANGE_NEW_POST, newText: newText} as const);
+export const setUserProfileAC = (profile: UserProfileType) => ({type: SET_USER_PROFILE, profile} as const)
+
 /**
  * type AddNewPostActionType = {
  * type: 'ADD-NEW-POST'
@@ -75,3 +108,4 @@ export const changeNewPostAC = (newText: string) => ({
  */
 export type AddNewPostActionType = ReturnType<typeof addPostAC>
 export type ChangeNewPostActionType = ReturnType<typeof changeNewPostAC>
+export type SetUserProfileType = ReturnType<typeof setUserProfileAC>

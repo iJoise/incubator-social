@@ -1,5 +1,7 @@
 import {v1} from "uuid";
-import {ActionType} from "./redux-store";
+
+type ActionType = AddMessageActionType
+| ChangeMessageActionType
 
 
 export type DialogsType = {

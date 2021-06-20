@@ -8,7 +8,6 @@
    grid-template-rows: 60px 1fr;
    grid-template-columns: 2.5fr 9fr;
    grid-gap: 10px;
-   position: relative;
    min-height: 100vh;
 }
 
@@ -17,4 +16,5 @@
    background-color: #fff;
    overflow: hidden;
    border-radius: 5px;
+   position: relative;
 }

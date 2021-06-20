@@ -1,49 +1,62 @@
 
 .profile {
-   margin: 60px 0 0 30px;
-   display: flex;
-   img {
-      object-fit: cover;
-   }
-}
+  margin: 60px 0 0 30px;
+  display: flex;
 
-.profile_body {
-   padding: 0 0 0 30px;
+  img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+  }
 
-   img {
-      width: 150px;
-      height: 150px;
-   }
+  &__body {
+    padding: 0 0 0 30px;
 
-   h3 {
+
+    h3 {
       font-family: 'Bebas Neue', cursive;
       font-size: 32px;
-      padding: 0 0 20px 0;
       letter-spacing: 1.2px;
-   }
+    }
+  }
 
-   p {
-      font-size: 22px;
-      padding: 0 0 5px 0;
-      font-family: 'Bebas Neue', cursive;
-   }
-
-   span {
+  &__status {
+    font-size: 16px;
+    color: #666666;
+    padding: 0 0 5px 0;
+    font-family: 'Bebas Neue', cursive;
+  }
+  
+  &__jobInfo {
+    padding: 10px 0 0 0;
+  }
+  
+  &__jobSearch {
+    font-size: 18px;
+    padding: 0 0 5px 0;
+    span {
       padding: 0 0 0 10px;
-      text-align: left;
-      color: gray;
-   }
+      font-weight: 600;
+    }
+  }
 
-   a {
-      color: blue;
-   }
+  &__social {
+    padding: 25px 0 0 0;
+    img {
+      margin: 0 5px 0 0;
+      width: 25px;
+      height: 25px;
+    }
+  }
 }
 
+
 .content_img {
-   height: 200px;
-   img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-   }
+  height: 200px;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 }
