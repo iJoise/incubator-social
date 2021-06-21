@@ -55,7 +55,7 @@ const initialState: ProfilePageType = {
          message: 'Lorem ipsum dolor, sit amet consecrated animistic elicit. Possimus ipsum sit voluptate sapiente ratione vero magnidoloremque modi qui.',
          countLike: 32
       }
-   ] as PostType[],
+   ],
    newPostsText: '',
    profile: null,
 }
