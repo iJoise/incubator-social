@@ -1,6 +1,5 @@
 import React from 'react';
 import './App.scss';
-import Header from './components/Header/Header';
 import {Navbar} from './components/Navbar/Navbar';
 import {Dialogs} from './components/Dialogs/Dialogs';
 import Settings from './components/Settings/Settings';
@@ -9,12 +8,15 @@ import News from './components/News/News';
 import {Route, Switch} from "react-router-dom";
 import UsersContainer from "./components/Users/UsersContainer";
 import ProfileContainer from './components/Profile/ProfileContainer';
+import HeaderContainer from "./components/Header/HeaderContainer";
+
 
 
 export const App = () => {
    return (
       <div className="app-wrapper">
-         <Header/>
+
+         <HeaderContainer/>
          <Navbar/>
          <main className="app-wrapper-content">
             <Switch>

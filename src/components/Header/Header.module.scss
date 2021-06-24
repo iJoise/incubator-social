@@ -37,20 +37,34 @@
 }
 
 .btn {
-   width: 90px;
-   height: 30px;
-
+   display: inline-block;
+   width: 100px;
+   padding: 5px;
    i {
       padding-right: 10px;
-      font-size: 16px;
+      font-size: 18px;
    }
 }
 
 .btn_log {
+   background-color: #fff;
    margin-right: 15px;
+   color: black;
 }
 
 .btn_reg {
    background-color: #0e6ebc;
    color: white;
+}
+
+.login {
+   margin: 0 30px 0 0;
+   height: 30px;
+   padding: 5px 0 5px 0;
+   font-size: 20px;
+   color: floralwhite;
+   &:hover{
+      content: '';
+      border-bottom: 2px solid floralwhite;
+   }
 }

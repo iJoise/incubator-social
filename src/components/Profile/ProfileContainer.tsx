@@ -2,7 +2,7 @@ import React from 'react';
 import {Profile} from "./Profile";
 import axios, {AxiosResponse} from "axios";
 import {AppStateType} from "../../redux/redux-store";
-import {connect, ConnectedProps} from "react-redux";
+import {connect} from "react-redux";
 import {setUserProfileAC, UserProfileType} from "../../redux/profile-reducer";
 import {RouteComponentProps, withRouter} from 'react-router-dom';
 
