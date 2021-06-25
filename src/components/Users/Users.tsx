@@ -2,7 +2,9 @@ import React from "react";
 import s from "./Users.module.scss";
 import userPhoto from "../../assets/images/user.png";
 import {UsersType} from "../../redux/users-reducer";
-import { NavLink } from "react-router-dom";
+import {NavLink} from "react-router-dom";
+import {AuthAPIType} from "../../redux/auth-reducer";
+import {usersAPI} from "../../api/api";
 
 type UsersPropsType = {
    users: UsersType[]
@@ -12,6 +14,8 @@ type UsersPropsType = {
    pageSize: number
    currentPage: number
    onPageChanged: (pageNumber: number) => void
+   followingProgress: (following: boolean, id: number) => void
+   followingInProgress: number[]
 }
 
 
@@ -24,7 +28,9 @@ export const Users: React.FC<UsersPropsType> = (props) => {
       totalUsersCount,
       pageSize,
       currentPage,
-      onPageChanged
+      onPageChanged,
+      followingProgress,
+      followingInProgress,
    } = props;
 
    const pageCount = Math.ceil(totalUsersCount / pageSize);
@@ -48,10 +54,33 @@ export const Users: React.FC<UsersPropsType> = (props) => {
                   </div>
                   <div className={s.user__button}>
                      {u.followed
-                        ? <button className={s.btn} onClick={() => unFollow(u.id)}>Unfollow</button>
+                        ? <button className={s.btn}
+                                  disabled={followingInProgress.some(id => id === u.id)}
+                                  onClick={() => {
+                                     followingProgress(true, u.id)
+                                     usersAPI.unfollowUsers(u.id)
+                                        .then((data: AuthAPIType) => {
+                                           if (data.resultCode === 0) {
+                                              unFollow(u.id)
+                                           }
+                                           followingProgress(false, u.id)
+                                        })
+                                  }
+                                  }>Unfollow</button>
                         : <button className={`${s.btn} ${s.btn__bl}`}
-                                  onClick={() => follow(u.id)}>Follow</button>}
-
+                                  disabled={followingInProgress.some(id => id === u.id)}
+                                  onClick={() => {
+                                     followingProgress(true, u.id)
+                                     usersAPI.followUsers(u.id)
+                                        .then((data: AuthAPIType) => {
+                                           if (data.resultCode === 0) {
+                                              follow(u.id)
+                                           }
+                                           followingProgress(false, u.id)
+                                        })
+                                  }
+                                  }>Follow</button>
+                     }
                   </div>
                </div>
             </div>

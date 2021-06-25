@@ -4,13 +4,15 @@ const SET_USERS = 'SET-USERS';
 const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE';
 const SET_TOTAL_USERS_COUNT = 'SET_TOTAL_USERS_COUNT';
 const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING'
+const TOGGLE_IS_FOLLOWING_PROGRESS = 'TOGGLE_IS_FOLLOWING_PROGRESS'
 
 type ActionType = FollowActionType
-| UnfollowActionType
-| SetUsersActionType
-| SetCurrentPageActionTypeType
-| SetTotalUsersCountActionType
-| ToggleIsFetchingType
+   | UnfollowActionType
+   | SetUsersActionType
+   | SetCurrentPageActionTypeType
+   | SetTotalUsersCountActionType
+   | ToggleIsFetchingType
+   | ToggleFollowingProgressType
 
 
 export type PhotosType = {
@@ -32,6 +34,7 @@ export type UsersPageType = {
    pageSize: number
    currentPage: number
    isFetching: boolean
+   followingInProgress: number[]
 }
 
 const initialState: UsersPageType = {
@@ -40,6 +43,7 @@ const initialState: UsersPageType = {
    pageSize: 5,
    currentPage: 1,
    isFetching: false,
+   followingInProgress: [],
 };
 
 export const usersReducer = (state = initialState, action: ActionType): UsersPageType => {
@@ -74,6 +78,13 @@ export const usersReducer = (state = initialState, action: ActionType): UsersPag
             ...state,
             isFetching: action.isFetching
          }
+      case TOGGLE_IS_FOLLOWING_PROGRESS:
+         return {
+            ...state,
+            followingInProgress: action.following
+            ? [...state.followingInProgress, action.userId]
+               : state.followingInProgress.filter(id => id !== action.userId)
+         }
       default:
          return state;
    }
@@ -85,8 +96,11 @@ export const setUsersAC = (users: UsersType[]) => ({type: SET_USERS, users} as c
 export const setCurrentPageAC = (currentPage: number) => ({type: SET_CURRENT_PAGE, currentPage} as const);
 export const setTotalUsersCountAC = (totalCount: number) => ({type: SET_TOTAL_USERS_COUNT, totalCount} as const);
 export const toggleIsFetchingAC = (isFetching: boolean) => ({type: TOGGLE_IS_FETCHING, isFetching} as const);
-
-
+export const toggleFollowingProgressAC = (following: boolean, userId: number) => ({
+   type: TOGGLE_IS_FOLLOWING_PROGRESS,
+   following,
+   userId,
+} as const);
 
 
 export type FollowActionType = ReturnType<typeof followAC>;
@@ -95,4 +109,5 @@ export type SetUsersActionType = ReturnType<typeof setUsersAC>;
 export type SetCurrentPageActionTypeType = ReturnType<typeof setCurrentPageAC>;
 export type SetTotalUsersCountActionType = ReturnType<typeof setTotalUsersCountAC>;
 export type ToggleIsFetchingType = ReturnType<typeof toggleIsFetchingAC>;
+export type ToggleFollowingProgressType = ReturnType<typeof toggleFollowingProgressAC>;
 
