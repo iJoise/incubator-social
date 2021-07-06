@@ -16,11 +16,13 @@ import {ProfileStatus} from './ProfileStatus'
 
 type ProfileInfoPropsType = {
    profile: UserProfileType | null
+   status: string | null
+   updateStatus: (status: string) => void
 }
 
 export const ProfileInfo: React.FC<ProfileInfoPropsType> = (props) => {
 
-   const {profile} = props;
+   const {profile, status, updateStatus} = props;
 
    if (!profile) {
       return <Preloader/>
@@ -39,7 +41,8 @@ export const ProfileInfo: React.FC<ProfileInfoPropsType> = (props) => {
             <div className={style.profile__body}>
                <h3>{profile.fullName}</h3>
                <ProfileStatus
-                  status={'hello friends'}
+                  status={status}
+                  updateStatus={updateStatus}
                />
                <div className={style.profile__jobInfo}>
                   <p className={style.profile__jobSearch}>В поиске работы:

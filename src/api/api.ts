@@ -19,11 +19,7 @@ export const usersAPI = {
          .then(response => response.data)
    },
    followUsers(id: number) {
-      return instance.post(`follow/${id}`, {})
-         .then(response => response.data)
-   },
-   getProfile(id: number) {
-      return instance.get(`profile/${id}`)
+      return instance.post(`follow/${id}`)
          .then(response => response.data)
    },
 }
@@ -35,3 +31,15 @@ export const authAPI = {
    },
 }
 
+export const profileAPI = {
+   getProfile(id: number) {
+      return instance.get(`profile/${id}`)
+         .then(response => response.data)
+   },
+   getStatus(id: number) {
+      return instance.get(`/profile/status/${id}`)
+   },
+   updateStatus(status: string) {
+      return instance.put(`/profile/status`, {status})
+   },
+}
