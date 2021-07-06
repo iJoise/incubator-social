@@ -42,7 +42,7 @@ export type UsersPageType = {
 }
 
 const initialState: UsersPageType = {
-   items: [] as UsersType[],
+   items: [],
    totalCount: 0,
    pageSize: 5,
    currentPage: 1,

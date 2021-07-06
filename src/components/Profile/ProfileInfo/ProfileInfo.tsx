@@ -22,7 +22,6 @@ export const ProfileInfo: React.FC<ProfileInfoPropsType> = (props) => {
    const {profile} = props;
 
    if (!profile) {
-      debugger
       return <Preloader/>
    }
 

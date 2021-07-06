@@ -1,12 +1,13 @@
-import {connect, ConnectedProps} from 'react-redux';
+import {connect} from 'react-redux';
 import {AppStateType} from "../../redux/redux-store";
 import {follow, getUsers, setCurrentPageAC, unfollow, UsersType} from "../../redux/users-reducer";
 import React from "react";
 import {Users} from "./Users";
 import {Preloader} from "../common/preloader/Preloader";
+import {withAuthRedirectComponent} from "../../hoc/withAuthRedirect";
 
 
-type UsersMapStateToPropsType = {
+type MapStateToPropsType = {
    users: UsersType[]
    pageSize: number
    totalUsersCount: number
@@ -15,8 +16,16 @@ type UsersMapStateToPropsType = {
    followingInProgress: number[]
 }
 
+type MapDispatchToPropsType = {
+   follow: (userId: number) => void
+   unfollow: (userId: number) => void
+   setCurrentPageAC: (pageNumber: number) => void
+   getUsers: (currentPage: number, pageSize: number) => void
+}
 
-export class UsersContainer extends React.Component<TProps> {
+type UserContainerType = MapDispatchToPropsType & MapStateToPropsType
+
+export class UsersContainer extends React.Component<UserContainerType> {
 
    componentDidMount() {
       this.props.getUsers(this.props.currentPage, this.props.pageSize);
@@ -47,7 +56,7 @@ export class UsersContainer extends React.Component<TProps> {
    }
 }
 
-const mapStateToProps = (state: AppStateType): UsersMapStateToPropsType => {
+const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
    return {
       users: state.usersPage.items,
       pageSize: state.usersPage.pageSize,
@@ -58,13 +67,12 @@ const mapStateToProps = (state: AppStateType): UsersMapStateToPropsType => {
    }
 }
 
-const connector = connect(mapStateToProps, {
+export default withAuthRedirectComponent(connect(mapStateToProps, {
    follow,
    unfollow,
    setCurrentPageAC,
    getUsers,
-})
+})(UsersContainer));
 
-type TProps = ConnectedProps<typeof connector>;
-export default connector(UsersContainer);
+
 

@@ -1,5 +1,5 @@
 import {v1} from 'uuid';
-import {PhotosType, toggleIsFetchingAC} from "./users-reducer";
+import {PhotosType} from "./users-reducer";
 import {Dispatch} from "redux";
 import {usersAPI} from "../api/api";
 
