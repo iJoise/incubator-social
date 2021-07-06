@@ -22,6 +22,7 @@ export const ProfileInfo: React.FC<ProfileInfoPropsType> = (props) => {
    const {profile} = props;
 
    if (!profile) {
+      debugger
       return <Preloader/>
    }
 
@@ -48,14 +49,16 @@ export const ProfileInfo: React.FC<ProfileInfoPropsType> = (props) => {
                   }
                </div>
                <div className={style.profile__social}>
-                  {profile.contacts.github && <a href={profile.contacts.github}><img src={github} alt="github"/></a>}
+                  {profile.contacts.github &&
+                  <a href={profile.contacts.github}><img src={github} alt="github"/></a>}
                   {profile.contacts.facebook &&
                   <a href={profile.contacts.facebook}><img src={facebook} alt="facebook"/></a>}
                   {profile.contacts.instagram &&
                   <a href={profile.contacts.instagram}><img src={instagram} alt="instagram"/></a>}
                   {profile.contacts.twitter &&
                   <a href={profile.contacts.twitter}><img src={twitter} alt="twitter"/></a>}
-                  {profile.contacts.vk && <a href={profile.contacts.vk}><img src={vk} alt="twitter"/></a>}
+                  {profile.contacts.vk &&
+                  <a href={profile.contacts.vk}><img src={vk} alt="twitter"/></a>}
                   {profile.contacts.youtube &&
                   <a href={profile.contacts.youtube}><img src={youtube} alt="youtube"/></a>}
                   {profile.contacts.website &&

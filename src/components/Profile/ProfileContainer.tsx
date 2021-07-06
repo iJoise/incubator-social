@@ -2,9 +2,8 @@ import React from 'react';
 import {Profile} from "./Profile";
 import {AppStateType} from "../../redux/redux-store";
 import {connect} from "react-redux";
-import {setUserProfileAC, UserProfileType} from "../../redux/profile-reducer";
-import {RouteComponentProps, withRouter} from 'react-router-dom';
-import {usersAPI} from "../../api/api";
+import {getUserProfile, UserProfileType} from "../../redux/profile-reducer";
+import {Redirect, RouteComponentProps, withRouter} from 'react-router-dom';
 
 type PathParamType = {
    userId: string
@@ -12,10 +11,11 @@ type PathParamType = {
 
 type MapStateToPropsType = {
    profile: UserProfileType | null
+   isAuth: boolean
 }
 
 type MapDispatchToPropsType = {
-   setUserProfileAC: (profile: UserProfileType) => void
+   getUserProfile: (userId: number) => void
 }
 
 type PropsType = RouteComponentProps<PathParamType> & MapStateToPropsType & MapDispatchToPropsType
@@ -24,28 +24,32 @@ type PropsType = RouteComponentProps<PathParamType> & MapStateToPropsType & MapD
 class ProfileContainer extends React.Component<PropsType> {
 
    componentDidMount() {
-
-      let userId = this.props.match.params.userId;
+      let userId  = this.props.match.params.userId;
       !userId && (userId = '17599');
-      usersAPI.userProfile(userId)
-         .then((data: UserProfileType) => {
-            this.props.setUserProfileAC(data);
-         });
+      this.props.getUserProfile(+userId);
    }
 
    render() {
+
+      if (!this.props.isAuth) return <Redirect to={'/login'}/>
+
+
       return (
          <>
-            <Profile {...this.props} profile={this.props.profile}/>
+            <Profile
+               {...this.props}
+               profile={this.props.profile}
+            />
          </>
       );
    }
 }
 
 
-const mapStateToProps = (state: AppStateType) => ({
-   profile: state.profilePage.profile
+const mapStateToProps = (state: AppStateType): MapStateToPropsType => ({
+   profile: state.profilePage.profile,
+   isAuth: state.auth.isAuth,
 })
 
 
-export default withRouter(connect<MapStateToPropsType, MapDispatchToPropsType, {}, AppStateType>(mapStateToProps, {setUserProfileAC})(ProfileContainer));
+export default withRouter(connect<MapStateToPropsType, MapDispatchToPropsType, {}, AppStateType>(mapStateToProps,{getUserProfile})(ProfileContainer));

@@ -1,3 +1,7 @@
+import {Dispatch} from "redux";
+import {usersAPI} from "../api/api";
+import {AuthAPIType} from "./auth-reducer";
+
 const FOLLOW = 'FOLLOW';
 const UNFOLLOW = 'UNFOLLOW';
 const SET_USERS = 'SET-USERS';
@@ -82,7 +86,7 @@ export const usersReducer = (state = initialState, action: ActionType): UsersPag
          return {
             ...state,
             followingInProgress: action.following
-            ? [...state.followingInProgress, action.userId]
+               ? [...state.followingInProgress, action.userId]
                : state.followingInProgress.filter(id => id !== action.userId)
          }
       default:
@@ -101,6 +105,43 @@ export const toggleFollowingProgressAC = (following: boolean, userId: number) =>
    following,
    userId,
 } as const);
+
+//ThunkCreator
+
+export const getUsers = (currentPage: number, pageSize: number) => (dispatch: Dispatch) => {
+   dispatch(toggleIsFetchingAC(true));
+   dispatch(setCurrentPageAC(currentPage))
+   usersAPI.getUsers(currentPage, pageSize)
+      .then((data: UsersPageType) => {
+         dispatch(toggleIsFetchingAC(false));
+         dispatch(setUsersAC(data.items));
+         dispatch(setTotalUsersCountAC(data.totalCount));
+      });
+}
+
+export const follow = (id: number) => (dispatch: Dispatch) => {
+   dispatch(toggleFollowingProgressAC(true, id));
+   usersAPI.followUsers(id)
+      .then((data: AuthAPIType) => {
+         if (data.resultCode === 0) {
+            dispatch(followAC(id));
+         }
+         dispatch(toggleFollowingProgressAC(false, id));
+      })
+}
+
+export const unfollow = (id: number) => (dispatch: Dispatch) => {
+   dispatch(toggleFollowingProgressAC(true, id));
+   usersAPI.unfollowUsers(id)
+      .then((data: AuthAPIType) => {
+         if (data.resultCode === 0) {
+            dispatch(unFollowAC(id))
+         }
+         dispatch(toggleFollowingProgressAC(false, id));
+      })
+}
+
+
 
 
 export type FollowActionType = ReturnType<typeof followAC>;

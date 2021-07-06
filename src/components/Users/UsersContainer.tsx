@@ -1,19 +1,9 @@
 import {connect, ConnectedProps} from 'react-redux';
 import {AppStateType} from "../../redux/redux-store";
-import {
-   followAC,
-   setCurrentPageAC,
-   setTotalUsersCountAC,
-   setUsersAC, toggleFollowingProgressAC,
-   toggleIsFetchingAC,
-   unFollowAC,
-   UsersPageType,
-   UsersType
-} from "../../redux/users-reducer";
+import {follow, getUsers, setCurrentPageAC, unfollow, UsersType} from "../../redux/users-reducer";
 import React from "react";
 import {Users} from "./Users";
 import {Preloader} from "../common/preloader/Preloader";
-import {usersAPI} from "../../api/api";
 
 
 type UsersMapStateToPropsType = {
@@ -26,28 +16,14 @@ type UsersMapStateToPropsType = {
 }
 
 
-
 export class UsersContainer extends React.Component<TProps> {
 
    componentDidMount() {
-      this.props.toggleIsFetchingAC(true)
-      usersAPI.getUsers(this.props.currentPage, this.props.pageSize)
-         .then((data: UsersPageType) => {
-            this.props.toggleIsFetchingAC(false)
-            this.props.setUsersAC(data.items)
-            this.props.setTotalUsersCountAC(data.totalCount)
-         });
+      this.props.getUsers(this.props.currentPage, this.props.pageSize);
    }
 
    onPageChanged = (pageNumber: number) => {
-      this.props.setCurrentPageAC(pageNumber);
-      this.props.toggleIsFetchingAC(true);
-
-      usersAPI.getUsers(pageNumber, this.props.pageSize)
-         .then((data: UsersPageType) => {
-            this.props.toggleIsFetchingAC(false);
-            this.props.setUsersAC(data.items);
-         });
+      this.props.getUsers(pageNumber, this.props.pageSize);
    }
 
    render() {
@@ -59,12 +35,11 @@ export class UsersContainer extends React.Component<TProps> {
             <Users
                onPageChanged={this.onPageChanged}
                users={this.props.users}
-               unFollow={this.props.unFollowAC}
-               follow={this.props.followAC}
+               unfollow={this.props.unfollow}
+               follow={this.props.follow}
                totalUsersCount={this.props.totalUsersCount}
                pageSize={this.props.pageSize}
                currentPage={this.props.currentPage}
-               followingProgress={this.props.toggleFollowingProgressAC}
                followingInProgress={this.props.followingInProgress}
             />
          </>
@@ -84,13 +59,10 @@ const mapStateToProps = (state: AppStateType): UsersMapStateToPropsType => {
 }
 
 const connector = connect(mapStateToProps, {
-   followAC,
-   unFollowAC,
-   setUsersAC,
+   follow,
+   unfollow,
    setCurrentPageAC,
-   setTotalUsersCountAC,
-   toggleIsFetchingAC,
-   toggleFollowingProgressAC,
+   getUsers,
 })
 
 type TProps = ConnectedProps<typeof connector>;

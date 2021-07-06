@@ -1,3 +1,6 @@
+import {authAPI} from "../api/api";
+import {Dispatch} from "redux";
+
 const SET_USER_DATA = 'SET_USER_DATA';
 
 
@@ -14,7 +17,6 @@ export type AuthAPIType = {
    resultCode: number
    messages: string[]
 }
-
 
 export type AuthType = {
    id: number | null
@@ -52,6 +54,17 @@ export const setAuthUserDataAC = (id: number, email: string, login: string) => (
    }
 } as const);
 
+//thunk creator
+
+export const getAuthUserData = () => (dispatch: Dispatch) => {
+   authAPI.me()
+      .then((data: AuthAPIType) => {
+         if (data.resultCode === 0) {
+            const {email, id, login} = data.data;
+            dispatch(setAuthUserDataAC(id, email, login));
+         }
+      });
+}
 
 export type SetUserDataActionType = ReturnType<typeof setAuthUserDataAC>;
 

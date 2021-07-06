@@ -1,5 +1,7 @@
 import {v1} from 'uuid';
-import {PhotosType} from "./users-reducer";
+import {PhotosType, toggleIsFetchingAC} from "./users-reducer";
+import {Dispatch} from "redux";
+import {usersAPI} from "../api/api";
 
 const ADD_NEW_POST = 'ADD-NEW-POST';
 const CHANGE_NEW_POST = 'CHANGE-NEW-POST';
@@ -92,20 +94,14 @@ export const addPostAC = () => ({type: ADD_NEW_POST} as const);
 export const changeNewPostAC = (newText: string) => ({type: CHANGE_NEW_POST, newText: newText} as const);
 export const setUserProfileAC = (profile: UserProfileType) => ({type: SET_USER_PROFILE, profile} as const)
 
-/**
- * type AddNewPostActionType = {
- * type: 'ADD-NEW-POST'
- *}
- * и
- * type ChangeNewPostActionType = {
- * type: 'CHANGE-NEW-POST'
- * newText: string
- *}
- * Заменяем на новый тип. Это тип который возвращает сама ф-я, что бы не дублировать код
- * addPostActionCreator и changeNewPostActionCreator возвращают типы Экшинов. Что бы эти типы
- * не дублировались мы используем ReturnType<typeof и имя ф-ии которая возвращает тип>
- *   Другими словами - ф-я определяет какого типа она будет
- */
+//thunk creator
+export const getUserProfile = (userId: number) => (dispatch: Dispatch) => {
+   usersAPI.getProfile(userId)
+      .then((data: UserProfileType) => {
+         dispatch(setUserProfileAC(data));
+      });
+}
+
 export type AddNewPostActionType = ReturnType<typeof addPostAC>
 export type ChangeNewPostActionType = ReturnType<typeof changeNewPostAC>
 export type SetUserProfileType = ReturnType<typeof setUserProfileAC>
