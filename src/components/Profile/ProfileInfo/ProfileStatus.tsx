@@ -6,6 +6,11 @@ type ProfileStatusPropsType = {
    updateStatus: (status: string) => void
 }
 
+type LocalStateType = {
+   editMode: boolean
+   status: string
+}
+
 export class ProfileStatus extends Component<ProfileStatusPropsType> {
 
    state = {
@@ -43,6 +48,14 @@ export class ProfileStatus extends Component<ProfileStatusPropsType> {
    onPressEnter = (e: KeyboardEvent<HTMLInputElement>) => {
       if (e.key === 'Enter') {
          this.deactivateEditMode();
+      }
+   }
+
+   componentDidUpdate(prevProps: Readonly<ProfileStatusPropsType>, prevState: Readonly<LocalStateType>, snapshot?: any) {
+      if (prevProps.status !== this.props.status) {
+         this.setState({
+            status: this.props.status
+         });
       }
    }
 
