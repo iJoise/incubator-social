@@ -4,7 +4,6 @@ import {AppStateType} from "../../redux/redux-store";
 import {connect} from "react-redux";
 import {getUserProfile, UserProfileType} from "../../redux/profile-reducer";
 import {RouteComponentProps, withRouter} from 'react-router-dom';
-import {withAuthRedirectComponent} from "../../hoc/withAuthRedirect";
 import {compose} from 'redux';
 
 type PathParamType = {
@@ -52,5 +51,4 @@ export default compose<React.ComponentType>(
    connect<MapStateToPropsType, MapDispatchToPropsType, {}, AppStateType>
    (mapStateToProps, {getUserProfile}),
    withRouter,
-   withAuthRedirectComponent
 )(ProfileContainer);

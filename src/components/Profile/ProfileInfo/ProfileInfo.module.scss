@@ -25,6 +25,7 @@
     color: #666666;
     padding: 0 0 5px 0;
     font-family: 'Bebas Neue', cursive;
+    min-height: 30px;
   }
   
   &__jobInfo {
@@ -59,4 +60,13 @@
     height: 100%;
     object-fit: cover;
   }
+}
+
+.input {
+  width: 400px;
+  height: 30px;
+  font-size: 16px;
+  padding: 10px;
+  background-color: #f0f2f7;
+  border-radius: 5px;
 }

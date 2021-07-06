@@ -11,6 +11,7 @@ import twitter from '../../../assets/images/icon/twitter.png';
 import website from '../../../assets/images/icon/website.png';
 import vk from '../../../assets/images/icon/vk.png';
 import youtube from '../../../assets/images/icon/youtube.png';
+import {ProfileStatus} from './ProfileStatus'
 
 
 type ProfileInfoPropsType = {
@@ -37,7 +38,9 @@ export const ProfileInfo: React.FC<ProfileInfoPropsType> = (props) => {
             />
             <div className={style.profile__body}>
                <h3>{profile.fullName}</h3>
-               <p className={style.profile__status}>{profile.aboutMe}</p>
+               <ProfileStatus
+                  status={'hello friends'}
+               />
                <div className={style.profile__jobInfo}>
                   <p className={style.profile__jobSearch}>В поиске работы:
                      <span>{profile.lookingForAJob ? '✅' : '❌'}</span></p>
