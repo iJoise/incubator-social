@@ -7,6 +7,7 @@ const ADD_NEW_POST = 'ADD-NEW-POST';
 const CHANGE_NEW_POST = 'CHANGE-NEW-POST';
 const SET_USER_PROFILE = 'SET_USER_PROFILE';
 const SET_STATUS = 'SET_STATUS';
+const SET_PHOTO = 'SET_PHOTO';
 
 export type PostType = {
    id?: string
@@ -40,12 +41,14 @@ export type ProfilePageType = {
    newPostsText: string
    profile: UserProfileType | null
    status: string | null
+   photos: PhotosType
 }
 
 type ActionType = AddNewPostActionType
    | ChangeNewPostActionType
    | SetUserProfileType
    | SetStatusType
+   | SetMyPhotoType
 
 
 const initialState: ProfilePageType = {
@@ -64,6 +67,10 @@ const initialState: ProfilePageType = {
    newPostsText: '',
    profile: null,
    status: null,
+   photos: {
+      small: null,
+      large: null
+   }
 }
 
 export const profileReducer = (state = initialState, action: ActionType): ProfilePageType => {
@@ -94,6 +101,11 @@ export const profileReducer = (state = initialState, action: ActionType): Profil
             ...state,
             status: action.status
          }
+      case SET_PHOTO:
+         return {
+            ...state,
+            photos: action.photo
+         }
       default:
          return state;
    }
@@ -103,12 +115,20 @@ export const addPostAC = () => ({type: ADD_NEW_POST} as const);
 export const changeNewPostAC = (newText: string) => ({type: CHANGE_NEW_POST, newText: newText} as const);
 export const setUserProfileAC = (profile: UserProfileType) => ({type: SET_USER_PROFILE, profile} as const)
 export const setStatusAC = (status: string) => ({type: SET_STATUS, status} as const)
+export const setMyPhotoAC = (photo: PhotosType) => ({type: SET_PHOTO, photo} as const)
 
 //thunk creator
 export const getUserProfile = (userId: number) => (dispatch: Dispatch) => {
    profileAPI.getProfile(userId)
       .then((data: UserProfileType) => {
          dispatch(setUserProfileAC(data));
+      });
+}
+
+export const getMyPhoto = (userId: number) => (dispatch: Dispatch) => {
+   profileAPI.getProfile(userId)
+      .then((response) => {
+         dispatch(setMyPhotoAC(response.photos));
       });
 }
 
@@ -132,3 +152,4 @@ export type AddNewPostActionType = ReturnType<typeof addPostAC>
 export type ChangeNewPostActionType = ReturnType<typeof changeNewPostAC>
 export type SetUserProfileType = ReturnType<typeof setUserProfileAC>
 export type SetStatusType = ReturnType<typeof setStatusAC>
+export type SetMyPhotoType = ReturnType<typeof setMyPhotoAC>

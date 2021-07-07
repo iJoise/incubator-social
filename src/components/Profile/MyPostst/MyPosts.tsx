@@ -2,22 +2,25 @@ import React, {ChangeEvent, KeyboardEvent} from 'react';
 import style from './MyPosts.module.scss';
 import {Post} from "./Post/Posts";
 import {PostType} from "../../../redux/profile-reducer";
+import {PhotosType} from "../../../redux/users-reducer";
 
 type MyPostsPropsType = {
    posts: PostType[]
    newPostsText: string
    onPostsChange: (text: string) => void
    addNewPost: () => void
+   photoUser: PhotosType
 }
 
 export const MyPosts: React.FC<MyPostsPropsType> = (
    {posts,
       newPostsText,
       addNewPost,
-      onPostsChange
+      onPostsChange,
+      photoUser
    }) => {
 
-   const postElements = posts.map(p => <Post key={p.id} message={p.message} countLike={p.countLike}/>);
+   const postElements = posts.map(p => <Post key={p.id} message={p.message} countLike={p.countLike} photoUser={photoUser}/>);
 
    const addNewPostsHandler = () => {
       if (newPostsText.trim() === '') {

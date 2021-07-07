@@ -1,0 +1,124 @@
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: calc(100vh - 80px);
+  width: 100%;
+}
+
+.form_box {
+  width: 380px;
+  height: 450px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  opacity: 0.5;
+  border-radius: 2%;
+}
+
+.header_form {
+  margin-bottom: 30px;
+  position: relative;
+}
+
+.message {
+  width: 150px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.social {
+  display: flex;
+  justify-content: space-around;
+  padding: 30px;
+}
+
+.social i {
+  color: #305c8b;
+  font-size: 35px;
+}
+
+.social i:hover {
+  color: red;
+  cursor: pointer;
+}
+
+.text_primary {
+  text-align: center;
+  font-size: 110px;
+  i {
+    color: #305c8b ;
+  }
+}
+
+.input_group {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  margin-bottom: 20px;
+  &____prepend {
+    display: flex;
+  }
+  &__text {
+    display: flex;
+    align-items: center;
+    padding: .375rem .75rem;
+    margin-bottom: 0;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    text-align: center;
+    white-space: nowrap;
+    background-color: #e9ecef;
+    border: 1px solid #ced4da;
+    border-radius: .25rem 0 0 .25rem;
+    height: 40px;
+    width: 40px;
+  }
+}
+
+.form_control {
+  display: block;
+  padding: .375rem .75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  width: 100%;
+  color: #000;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+  border-radius: 0 .25rem .25rem 0;
+}
+
+.btn {
+  margin-top: 30px;
+  margin-bottom: 20px;
+  display: block;
+  font-weight: 400;
+  text-align: center;
+  white-space: nowrap;
+  user-select: none;
+  padding: .375rem .75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  border-radius: .25rem;
+  color: #fff;
+  background-color: #0F6FBC;
+  border: 1px solid #0F6FBC;
+  width: 100%;
+  transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+  &:hover {
+    background-color: #1238ac;
+  }
+}
+
+.checkbox {
+  width: 30px;
+  height: 20px;
+}

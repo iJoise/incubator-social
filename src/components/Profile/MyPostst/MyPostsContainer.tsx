@@ -3,6 +3,7 @@ import {MyPosts} from "./MyPosts";
 import {connect} from 'react-redux';
 import {AppStateType} from "../../../redux/redux-store";
 import {Dispatch} from "redux";
+import {PhotosType} from "../../../redux/users-reducer";
 
 type MapDispatchToPropsType = {
    addNewPost: () => void
@@ -12,13 +13,15 @@ type MapDispatchToPropsType = {
 type MyPostMapStateToPropsType = {
    posts: PostType[]
    newPostsText: string
+   photoUser: PhotosType
 }
 
 
 const mapStateToProps = (state: AppStateType): MyPostMapStateToPropsType => {
    return {
       posts: state.profilePage.posts,
-      newPostsText: state.profilePage.newPostsText
+      newPostsText: state.profilePage.newPostsText,
+      photoUser: state.profilePage.photos
    }
 }
 

@@ -1,27 +1,33 @@
 import React from 'react';
 import style from './Header.module.scss';
 import logo from '../../assets/images/logo.png';
+import user from '../../assets/images/user.png';
 import {NavLink} from 'react-router-dom';
+import {PhotosType} from "../../redux/users-reducer";
 
 type HeaderPropsType = {
    isAuth: boolean
    login: string | null
+   photoUser: PhotosType
 }
 
-const Header: React.FC<HeaderPropsType> = ({isAuth, login}) => {
+const Header: React.FC<HeaderPropsType> = ({isAuth, login, photoUser}) => {
    return (
       <header className={style.header}>
-         <img src={logo} alt=""/>
+         <img className={style.header__logo} src={logo} alt=""/>
          <input
             type="search"
-            placeholder="Enter your search pharse"
+            placeholder="Enter your search"
             name="form"
             className={style.input}
          />
 
          {
             isAuth
-               ? <div className={style.login}>Hello {login}</div>
+               ? <div className={style.auth}>
+                  <div className={style.login}>Hello {login}</div>
+                  <img className={style.photo} src={photoUser.small || photoUser.large || user} alt="user"/>
+               </div>
                : <div className={style.buttons}>
                   <NavLink
                      to={'/login'}

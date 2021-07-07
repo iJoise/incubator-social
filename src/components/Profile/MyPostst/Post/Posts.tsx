@@ -1,16 +1,25 @@
 import React from 'react';
 import style from './Posts.module.scss';
 import {PostType} from "../../../../redux/profile-reducer";
+import {PhotosType} from "../../../../redux/users-reducer";
+import user from "../../../../assets/images/user.png";
 
 
+type PostPropsType = PostType & {
+   photoUser: PhotosType
+}
 
-export const Post: React.FC<PostType> = ({message,countLike}) => {
+
+export const Post: React.FC<PostPropsType> = (props) => {
+
+   const {message, countLike} = props
+
    return (
       <div className={style.post}>
          <div className={style.top}>
             <div className={style.top_image}>
                <img
-                  src="https://source.unsplash.com/random/150x150/"
+                  src={props.photoUser.small || props.photoUser.large || user}
                   alt="avatar"
                />
             </div>
