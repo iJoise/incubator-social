@@ -1,8 +1,6 @@
 import {v1} from "uuid";
 
-type ActionType = AddMessageActionType
-| ChangeMessageActionType
-
+type ActionType = AddMessageActionType;
 
 export type DialogsType = {
    id: string
@@ -16,11 +14,9 @@ export type MessageType = {
 export type DialogsPageType = {
    dialogs: Array<DialogsType>
    messages: Array<MessageType>
-   newMessage: string
 }
 
 const ADD_NEW_MESSAGE = 'ADD-NEW-MESSAGE';
-const CHANGE_NEW_MESSAGE = 'CHANGE-NEW-MESSAGE';
 
 const initialState: DialogsPageType = {
    dialogs: [
@@ -97,7 +93,6 @@ const initialState: DialogsPageType = {
             'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Exercitationem, molestias '
       }
    ] as MessageType[],
-   newMessage: ''
 };
 
 export const dialogReducer = (state = initialState, action: ActionType): DialogsPageType => {
@@ -105,28 +100,17 @@ export const dialogReducer = (state = initialState, action: ActionType): Dialogs
       case ADD_NEW_MESSAGE:
          const message: MessageType = {
             id: v1(),
-            message: state.newMessage,
+            message: action.newMessage
          };
          return {
             ...state,
-            newMessage: '',
             messages: [...state.messages, message]
-         }
-      case CHANGE_NEW_MESSAGE:
-         return {
-            ...state,
-            newMessage: action.newMessage
          }
       default:
          return state;
    }
 }
 
-export const addMessageAC = () => ({type: ADD_NEW_MESSAGE} as const);
-export const changeNewMessageAC = (newMessage: string) => ({
-   type: CHANGE_NEW_MESSAGE,
-   newMessage: newMessage
-} as const);
+export const addMessageAC = (newMessage: string) => ({type: ADD_NEW_MESSAGE, newMessage} as const);
 
 export type AddMessageActionType = ReturnType<typeof addMessageAC>
-export type ChangeMessageActionType = ReturnType<typeof changeNewMessageAC>

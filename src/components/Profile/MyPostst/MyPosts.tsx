@@ -1,62 +1,63 @@
-import React, {ChangeEvent, KeyboardEvent} from 'react';
+import React from 'react';
 import style from './MyPosts.module.scss';
 import {Post} from "./Post/Posts";
 import {PostType} from "../../../redux/profile-reducer";
 import {PhotosType} from "../../../redux/users-reducer";
+import {InjectedFormProps, reduxForm, Field} from "redux-form";
+import {maxLengthCreator, requiredField} from "../../../utils/validators/validators";
+import {Textarea} from "../../common/FormsControls/FormsControls";
 
 type MyPostsPropsType = {
    posts: PostType[]
-   newPostsText: string
-   onPostsChange: (text: string) => void
-   addNewPost: () => void
+   addNewPost: (newPost: string) => void
    photoUser: PhotosType
 }
 
 export const MyPosts: React.FC<MyPostsPropsType> = (
    {posts,
-      newPostsText,
       addNewPost,
-      onPostsChange,
       photoUser
    }) => {
 
    const postElements = posts.map(p => <Post key={p.id} message={p.message} countLike={p.countLike} photoUser={photoUser}/>);
 
-   const addNewPostsHandler = () => {
-      if (newPostsText.trim() === '') {
-         return;
-      }
-      addNewPost()
-   }
-
-   const onPostsChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
-      const text = e.currentTarget.value
-      onPostsChange(text)
-   }
-
-   const onPressEnterToSendPostHandler = (event: KeyboardEvent<HTMLTextAreaElement>) => {
-      if (event.key === 'Enter') {
-         addNewPostsHandler();
-      }
+   const addNewPostsHandler = (data: AddPostFormPropsType) => {
+      console.log(data)
+      addNewPost(data.post)
    }
 
    return (
       <>
-         <div className={style.newPost}>
-            <label>My post</label>
-            <textarea
-               placeholder="your news..."
-               value={newPostsText}
-               onChange={onPostsChangeHandler}
-               onKeyPress={onPressEnterToSendPostHandler}
-            />
-            <div>
-               <button className={style.btn} onClick={addNewPostsHandler}>Send</button>
-            </div>
-         </div>
+         <AddPostReduxForm onSubmit={addNewPostsHandler}/>
          {postElements}
       </>
    );
 };
 
 
+type AddPostFormPropsType = {
+   post: string
+}
+
+const maxLength20 = maxLengthCreator(20);
+
+export const AddPostForm: React.FC<InjectedFormProps<AddPostFormPropsType>> = (props) => {
+   return (
+      <form className={style.newPost} onSubmit={props.handleSubmit}>
+         <label>My post</label>
+         <Field
+            placeholder="Your news..."
+            component={Textarea}
+            name={'post'}
+            validate={[requiredField, maxLength20]}
+         />
+         <div>
+            <button className={style.btn}>Send</button>
+         </div>
+      </form>
+   )
+}
+
+const AddPostReduxForm = reduxForm<AddPostFormPropsType>({
+   form: 'addPostForm'
+})(AddPostForm)

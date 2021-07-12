@@ -4,7 +4,6 @@ import {Dispatch} from "redux";
 import {profileAPI} from "../api/api";
 
 const ADD_NEW_POST = 'ADD-NEW-POST';
-const CHANGE_NEW_POST = 'CHANGE-NEW-POST';
 const SET_USER_PROFILE = 'SET_USER_PROFILE';
 const SET_STATUS = 'SET_STATUS';
 const SET_PHOTO = 'SET_PHOTO';
@@ -38,14 +37,12 @@ export type UserProfileType = {
 
 export type ProfilePageType = {
    posts: Array<PostType>
-   newPostsText: string
    profile: UserProfileType | null
    status: string | null
    photos: PhotosType
 }
 
 type ActionType = AddNewPostActionType
-   | ChangeNewPostActionType
    | SetUserProfileType
    | SetStatusType
    | SetMyPhotoType
@@ -64,7 +61,6 @@ const initialState: ProfilePageType = {
          countLike: 32
       }
    ],
-   newPostsText: '',
    profile: null,
    status: null,
    photos: {
@@ -78,18 +74,12 @@ export const profileReducer = (state = initialState, action: ActionType): Profil
       case ADD_NEW_POST:
          const post: PostType = {
             id: v1(),
-            message: state.newPostsText,
+            message: action.newPost,
             countLike: 3
          };
          return {
             ...state,
-            newPostsText: '',
-            posts: [...state.posts, post]
-         }
-      case CHANGE_NEW_POST:
-         return {
-            ...state,
-            newPostsText: action.newText
+            posts: [post, ...state.posts]
          }
       case SET_USER_PROFILE:
          return {
@@ -111,8 +101,7 @@ export const profileReducer = (state = initialState, action: ActionType): Profil
    }
 }
 
-export const addPostAC = () => ({type: ADD_NEW_POST} as const);
-export const changeNewPostAC = (newText: string) => ({type: CHANGE_NEW_POST, newText: newText} as const);
+export const addPostAC = (newPost: string) => ({type: ADD_NEW_POST, newPost} as const);
 export const setUserProfileAC = (profile: UserProfileType) => ({type: SET_USER_PROFILE, profile} as const)
 export const setStatusAC = (status: string) => ({type: SET_STATUS, status} as const)
 export const setMyPhotoAC = (photo: PhotosType) => ({type: SET_PHOTO, photo} as const)
@@ -149,7 +138,6 @@ export const updateStatus = (status: string) => (dispatch: Dispatch) => {
 }
 
 export type AddNewPostActionType = ReturnType<typeof addPostAC>
-export type ChangeNewPostActionType = ReturnType<typeof changeNewPostAC>
 export type SetUserProfileType = ReturnType<typeof setUserProfileAC>
 export type SetStatusType = ReturnType<typeof setStatusAC>
 export type SetMyPhotoType = ReturnType<typeof setMyPhotoAC>

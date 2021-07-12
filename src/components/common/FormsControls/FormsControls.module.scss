@@ -1,0 +1,21 @@
+.formControl {
+  position: relative;
+  width: 100%;
+}
+
+.fieldForm {
+  border: 2px solid red ;
+  border-radius: 5px;
+  margin: -2px;
+}
+
+.error {
+  display: inline-block;
+  color: red;
+  &__span {
+    position: absolute;
+    bottom: -20px;
+    left: 0;
+    margin-top: 5px;
+  }
+}

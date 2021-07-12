@@ -1,41 +1,29 @@
-import React, {ChangeEvent, KeyboardEvent} from "react";
+import React from "react";
 import Message from "./Message/Message";
 import style from "../Dialogs.module.scss";
 import {MessageType} from "../../../redux/dialog-reducer";
+import {Field, InjectedFormProps, reduxForm} from "redux-form";
+import {Textarea} from "../../common/FormsControls/FormsControls";
+import {maxLengthCreator, requiredField} from "../../../utils/validators/validators";
 
 
 type MessagesListPropsType = {
    messages: MessageType[]
-   newMessage: string
-   onChangeMessage: (message: string) => void
-   sendMessage: () => void
+   sendMessage: (newMessage: string) => void
 }
 
 
 export const MessagesList: React.FC<MessagesListPropsType> = (
-   {messages,
-      newMessage,
-      onChangeMessage,
+   {
+      messages,
       sendMessage
    }) => {
 
    const messagesElement = messages.map(m => <Message key={m.id} message={m.message} id={m.id}/>);
 
-   const sendButton = `fa fa-paper-plane ${style.btnSend}`;
 
-   const onChangeMessagesHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
-      const message = e.currentTarget.value
-      onChangeMessage(message)
-   }
-
-   const sendMessageHandler = () => {
-      sendMessage();
-   }
-
-   const onPressEnterToSend = (e: KeyboardEvent<HTMLTextAreaElement>) => {
-      if (e.key === 'Enter') {
-         sendMessageHandler();
-      }
+   const addNewMessage = (formData: AddMessageFormDataType) => {
+      sendMessage(formData.message);
    }
 
    return (
@@ -49,19 +37,41 @@ export const MessagesList: React.FC<MessagesListPropsType> = (
             />
             <i className="fa fa-sliders"/>
          </div>
-         {messagesElement}
-         <div className={style.messageBottom}>
-            <i className="fa fa-paperclip"/>
-            <textarea
-               value={newMessage}
-               onChange={onChangeMessagesHandler}
-               className={style.messageText}
-               placeholder={'Введите сообщение...'}
-               onKeyPress={onPressEnterToSend}
-            />
-            <button onClick={sendMessageHandler}><i className={sendButton}/></button>
-            <i className="fa fa-microphone"/>
-         </div>
+
+         <div className={style.messagesBody}>{messagesElement}</div>
+
+         <AddMessageReduxForm onSubmit={addNewMessage}/>
+
       </div>
    )
 }
+
+
+type AddMessageFormDataType = {
+   message: string
+}
+
+const maxLength200 = maxLengthCreator(100);
+
+const AddMessageForm: React.FC<InjectedFormProps<AddMessageFormDataType>> = (props) => {
+   const sendButton = `fa fa-paper-plane ${style.btnSend}`;
+
+   return (
+      <form className={style.messageBottom} onSubmit={props.handleSubmit}>
+         <Field
+            component={Textarea}
+            className={style.messageText}
+            placeholder={'Введите сообщение...'}
+            name={'message'}
+            validate={[requiredField, maxLength200]}
+         />
+         <div className={style.btn}>
+            <button><i className={sendButton}/></button>
+            <i className="fa fa-microphone"/></div>
+      </form>
+   )
+}
+
+const AddMessageReduxForm = reduxForm<AddMessageFormDataType>({
+   form: 'dialogAddMessageForm'
+})(AddMessageForm)
