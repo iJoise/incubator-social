@@ -19,6 +19,9 @@ const maxLength30 = maxLengthCreator(30)
 export const LoginForm: React.FC<InjectedFormProps<FormDataType>> = (props) => {
    return (
       <form onSubmit={props.handleSubmit}>
+         {
+            props.error && <div className={s.error}>{props.error}</div>
+         }
          <div className={s.input_group}>
             <div className={s.input_group__prepend}>
                <span className={s.input_group__text}><i className="fa fa-user"/></span>
