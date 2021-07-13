@@ -8,10 +8,11 @@ import {PhotosType} from "../../redux/users-reducer";
 type HeaderPropsType = {
    isAuth: boolean
    login: string | null
+   logout: () => void
    photoUser: PhotosType
 }
 
-const Header: React.FC<HeaderPropsType> = ({isAuth, login, photoUser}) => {
+const Header: React.FC<HeaderPropsType> = ({isAuth, login, photoUser, logout}) => {
    return (
       <header className={style.header}>
          <img className={style.header__logo} src={logo} alt=""/>
@@ -25,13 +26,19 @@ const Header: React.FC<HeaderPropsType> = ({isAuth, login, photoUser}) => {
          {
             isAuth
                ? <div className={style.auth}>
-                  <div className={style.login}>Hello {login}</div>
+                  <div className={style.login}>
+                     <div className={style.login__name}>Hello {login}</div>
+                     <button
+                        className={`${style.btn} ${style.btn_log}`}
+                        onClick={logout}
+                     >Logout</button>
+                  </div>
                   <img className={style.photo} src={photoUser.small || photoUser.large || user} alt="user"/>
                </div>
                : <div className={style.buttons}>
                   <NavLink
                      to={'/login'}
-                     className={` ${style.btn} ${style.btn_log}`}>
+                     className={`${style.btn} ${style.btn_log}`}>
                      <i className="fa fa-lock"/>
                      Sign In
                   </NavLink>

@@ -3,14 +3,18 @@ import s from "./Login.module.scss";
 import {reduxForm, Field, InjectedFormProps} from "redux-form";
 import {Input} from "../common/FormsControls/FormsControls";
 import {maxLengthCreator, requiredField} from "../../utils/validators/validators";
+import {connect} from "react-redux";
+import {login} from "../../redux/auth-reducer";
+import {AppStateType} from "../../redux/redux-store";
+import {Redirect} from "react-router-dom";
 
 type FormDataType = {
-   login: string
+   email: string
    password: string
    rememberMe: boolean
 }
 
-const maxLength20 = maxLengthCreator(20)
+const maxLength30 = maxLengthCreator(30)
 
 export const LoginForm: React.FC<InjectedFormProps<FormDataType>> = (props) => {
    return (
@@ -22,10 +26,10 @@ export const LoginForm: React.FC<InjectedFormProps<FormDataType>> = (props) => {
             <Field
                type="text"
                className={s.form_control}
-               placeholder="Username"
+               placeholder="Email"
                component={Input}
-               name={'login'}
-               validate={[requiredField, maxLength20]}
+               name={'email'}
+               validate={[requiredField, maxLength30]}
             />
          </div>
          <div className={s.input_group}>
@@ -33,12 +37,12 @@ export const LoginForm: React.FC<InjectedFormProps<FormDataType>> = (props) => {
                <span className={s.input_group__text}><i className="fa fa-lock"/></span>
             </div>
             <Field
-               type="text"
+               type="password"
                className={s.form_control}
                placeholder="Password"
                component={Input}
                name={'password'}
-               validate={[requiredField, maxLength20]}
+               validate={[requiredField, maxLength30]}
             />
          </div>
 
@@ -60,12 +64,19 @@ const LoginReduxForm = reduxForm<FormDataType>({
    form: 'login'
 })(LoginForm)
 
-type LoginPropsType = {}
+type LoginPropsType = {
+   login: (email: string, password: string, rememberMe: boolean) => void
+   isAuth: boolean
+}
 
-export const Login: React.FC<LoginPropsType> = () => {
+const Login: React.FC<LoginPropsType> = ({login, isAuth}) => {
 
-   const onSubmit = (formData: FormDataType) => {
-      console.log(formData)
+   const onSubmit = ({email, password, rememberMe}: FormDataType) => {
+      login(email, password, rememberMe);
+   }
+
+   if (isAuth) {
+      return <Redirect to={'/profile'}/>
    }
 
    return (
@@ -86,3 +97,19 @@ export const Login: React.FC<LoginPropsType> = () => {
       </div>
    )
 }
+
+type MapDispatchToPropsType = {
+   login: (email: string, password: string, rememberMe: boolean) => void
+}
+
+type MapStateToPropsType = {
+   isAuth: boolean
+}
+
+const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
+   return {
+      isAuth: state.auth.isAuth
+   }
+}
+
+export default connect<MapStateToPropsType, MapDispatchToPropsType, {}, AppStateType>( mapStateToProps, {login})(Login)

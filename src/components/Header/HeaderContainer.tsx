@@ -1,6 +1,6 @@
 import React from "react";
 import Header from "./Header";
-import {getAuthUserData} from "../../redux/auth-reducer";
+import {getAuthUserData, logout} from "../../redux/auth-reducer";
 import {connect, ConnectedProps} from "react-redux";
 import {AppStateType} from "../../redux/redux-store";
 import {getMyPhoto} from "../../redux/profile-reducer";
@@ -36,6 +36,7 @@ const mapStateToProps = (state: AppStateType) => ({
 const connector = connect(mapStateToProps, {
    getAuthUserData,
    getMyPhoto,
+   logout,
 });
 
 type TProps = ConnectedProps<typeof connector>;
