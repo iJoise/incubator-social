@@ -22,7 +22,6 @@ export const MyPosts: React.FC<MyPostsPropsType> = (
    const postElements = posts.map(p => <Post key={p.id} message={p.message} countLike={p.countLike} photoUser={photoUser}/>);
 
    const addNewPostsHandler = (data: AddPostFormPropsType) => {
-      console.log(data)
       addNewPost(data.post)
    }
 

@@ -39,7 +39,6 @@ export class ProfileStatus extends Component<ProfileStatusPropsType> {
    }
 
    onStatusChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-      console.log(this.state.status)
       this.setState({
          status: e.currentTarget.value
       })

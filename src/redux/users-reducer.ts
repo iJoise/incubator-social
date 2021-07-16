@@ -1,6 +1,5 @@
-import {Dispatch} from "redux";
 import {usersAPI} from "../api/api";
-import {AuthAPIType} from "./auth-reducer";
+import {AppThunkType} from "./redux-store";
 
 const FOLLOW = 'FOLLOW';
 const UNFOLLOW = 'UNFOLLOW';
@@ -10,36 +9,6 @@ const SET_TOTAL_USERS_COUNT = 'SET_TOTAL_USERS_COUNT';
 const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING'
 const TOGGLE_IS_FOLLOWING_PROGRESS = 'TOGGLE_IS_FOLLOWING_PROGRESS'
 
-type ActionType = FollowActionType
-   | UnfollowActionType
-   | SetUsersActionType
-   | SetCurrentPageActionTypeType
-   | SetTotalUsersCountActionType
-   | ToggleIsFetchingType
-   | ToggleFollowingProgressType
-
-
-export type PhotosType = {
-   small: string | null
-   large: string | null
-}
-
-export type UsersType = {
-   name: string
-   id: number
-   uniqueUrlName: string | null
-   photos: PhotosType
-   status: string | null
-   followed: boolean
-}
-export type UsersPageType = {
-   items: UsersType[]
-   totalCount: number
-   pageSize: number
-   currentPage: number
-   isFetching: boolean
-   followingInProgress: number[]
-}
 
 const initialState: UsersPageType = {
    items: [],
@@ -50,7 +19,7 @@ const initialState: UsersPageType = {
    followingInProgress: [],
 };
 
-export const usersReducer = (state = initialState, action: ActionType): UsersPageType => {
+export const usersReducer = (state = initialState, action: UsersActionsType): UsersPageType => {
    switch (action.type) {
       case FOLLOW:
          return {
@@ -106,44 +75,80 @@ export const toggleFollowingProgressAC = (following: boolean, userId: number) =>
    userId,
 } as const);
 
-//ThunkCreator
-
-export const getUsers = (currentPage: number, pageSize: number) => (dispatch: Dispatch) => {
-   dispatch(toggleIsFetchingAC(true));
-   dispatch(setCurrentPageAC(currentPage))
-   usersAPI.getUsers(currentPage, pageSize)
-      .then((data: UsersPageType) => {
-         dispatch(toggleIsFetchingAC(false));
-         dispatch(setUsersAC(data.items));
-         dispatch(setTotalUsersCountAC(data.totalCount));
-      });
+/**
+ * ThunkCreator
+ */
+export const getUsers = (currentPage: number, pageSize: number): AppThunkType => async dispatch => {
+   try {
+      dispatch(toggleIsFetchingAC(true));
+      dispatch(setCurrentPageAC(currentPage));
+      const data = await usersAPI.getUsers(currentPage, pageSize);
+      dispatch(setUsersAC(data.items));
+      dispatch(setTotalUsersCountAC(data.totalCount));
+   } catch (err) {
+      console.warn(err);
+   } finally {
+      dispatch(toggleIsFetchingAC(false));
+   }
+}
+export const follow = (id: number): AppThunkType => async dispatch => {
+   try {
+      dispatch(toggleFollowingProgressAC(true, id));
+      const data = await usersAPI.followUsers(id);
+      if (data.resultCode === 0) {
+         dispatch(followAC(id));
+      }
+   } catch (err) {
+      console.warn(err);
+   } finally {
+      dispatch(toggleFollowingProgressAC(false, id));
+   }
+}
+export const unfollow = (id: number): AppThunkType => async dispatch => {
+   try {
+      dispatch(toggleFollowingProgressAC(true, id));
+      const data = await usersAPI.unfollowUsers(id);
+      if (data.resultCode === 0) {
+         dispatch(unFollowAC(id));
+      }
+   } catch (err) {
+      console.warn(err);
+   } finally {
+      dispatch(toggleFollowingProgressAC(false, id));
+   }
 }
 
-export const follow = (id: number) => (dispatch: Dispatch) => {
-   dispatch(toggleFollowingProgressAC(true, id));
-   usersAPI.followUsers(id)
-      .then((data: AuthAPIType) => {
-         if (data.resultCode === 0) {
-            dispatch(followAC(id));
-         }
-         dispatch(toggleFollowingProgressAC(false, id));
-      })
+/**
+ * type
+ */
+export type UsersActionsType = FollowActionType
+   | UnfollowActionType
+   | SetUsersActionType
+   | SetCurrentPageActionTypeType
+   | SetTotalUsersCountActionType
+   | ToggleIsFetchingType
+   | ToggleFollowingProgressType
+
+export type PhotosType = {
+   small: string | null
+   large: string | null
 }
-
-export const unfollow = (id: number) => (dispatch: Dispatch) => {
-   dispatch(toggleFollowingProgressAC(true, id));
-   usersAPI.unfollowUsers(id)
-      .then((data: AuthAPIType) => {
-         if (data.resultCode === 0) {
-            dispatch(unFollowAC(id))
-         }
-         dispatch(toggleFollowingProgressAC(false, id));
-      })
+export type UsersType = {
+   name: string
+   id: number
+   uniqueUrlName: string | null
+   photos: PhotosType
+   status: string | null
+   followed: boolean
 }
-
-
-
-
+export type UsersPageType = {
+   items: UsersType[]
+   totalCount: number
+   pageSize: number
+   currentPage: number
+   isFetching: boolean
+   followingInProgress: number[]
+}
 export type FollowActionType = ReturnType<typeof followAC>;
 export type UnfollowActionType = ReturnType<typeof unFollowAC>;
 export type SetUsersActionType = ReturnType<typeof setUsersAC>;

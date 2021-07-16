@@ -1,4 +1,7 @@
 import axios from "axios";
+import {AuthDataType} from "../redux/auth-reducer";
+import {UsersType} from "../redux/users-reducer";
+import {UserProfileType} from "../redux/profile-reducer";
 
 
 const instance = axios.create({
@@ -9,43 +12,61 @@ const instance = axios.create({
    },
 });
 
+
 export const usersAPI = {
-   getUsers(currentPage: number, pageSize: number) {
-      return instance.get(`users?page=${currentPage}&count=${pageSize}`)
-         .then(response => response.data);
+   async getUsers(currentPage: number, pageSize: number) {
+      const response = await instance.get<ResponseUserType>(`users?page=${currentPage}&count=${pageSize}`);
+      return response.data;
    },
-   unfollowUsers(id: number) {
-      return instance.delete(`follow/${id}`)
-         .then(response => response.data)
+   async unfollowUsers(id: number) {
+      const response = await instance.delete<ResponseType>(`follow/${id}`);
+      return response.data;
    },
-   followUsers(id: number) {
-      return instance.post(`follow/${id}`)
-         .then(response => response.data)
+   async followUsers(id: number) {
+      const response = await instance.post<ResponseType>(`follow/${id}`);
+      return response.data;
    },
 }
 
 export const authAPI = {
-   me() {
-      return instance.get(`auth/me`)
-         .then(response => response.data)
+   async me() {
+      const response = await instance.get<ResponseType<AuthDataType>>(`auth/me`);
+      return response.data;
    },
-   login(email: string, password: string, rememberMe: boolean = false) {
-      return instance.post('auth/login', {email, password, rememberMe})
+   async login(email: string, password: string, rememberMe: boolean = false) {
+      const payload = {email, password, rememberMe};
+      const response = await instance.post<ResponseType<{ userId: number }>>('auth/login', payload);
+      return response.data;
    },
-   logout() {
-      return instance.delete('auth/login')
+   async logout() {
+      const response =  await instance.delete<ResponseType>('auth/login');
+      return response.data
    }
 }
 
 export const profileAPI = {
-   getProfile(id: number) {
-      return instance.get(`profile/${id}`)
-         .then(response => response.data)
+   async getProfile(id: number) {
+      const response = await instance.get<UserProfileType>(`profile/${id}`);
+         return response.data;
    },
-   getStatus(id: number) {
-      return instance.get(`/profile/status/${id}`)
+   async getStatus(id: number) {
+      const response = await instance.get<string>(`/profile/status/${id}`);
+      return response.data
    },
-   updateStatus(status: string) {
-      return instance.put(`/profile/status`, {status})
+   async updateStatus(status: string) {
+      const response = await instance.put<ResponseType>(`/profile/status`, {status});
+      return response.data
    },
+}
+
+type ResponseType<D = {}> = {
+   fieldsErrors: string[]
+   resultCode: number
+   messages: string[]
+   data: D
+}
+type ResponseUserType = {
+   error: string | null
+   items: UsersType[]
+   totalCount: number
 }

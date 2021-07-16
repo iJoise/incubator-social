@@ -1,51 +1,12 @@
 import {v1} from 'uuid';
 import {PhotosType} from "./users-reducer";
-import {Dispatch} from "redux";
 import {profileAPI} from "../api/api";
+import {AppThunkType} from "./redux-store";
 
 const ADD_NEW_POST = 'ADD-NEW-POST';
 const SET_USER_PROFILE = 'SET_USER_PROFILE';
 const SET_STATUS = 'SET_STATUS';
 const SET_PHOTO = 'SET_PHOTO';
-
-export type PostType = {
-   id?: string
-   message: string
-   countLike: number
-}
-
-type ContactsType = {
-   facebook: string | null
-   website: string | null
-   vk: string | null
-   twitter: string | null
-   instagram: string | null
-   youtube: string | null
-   github: string | null
-   mainLink: string | null
-}
-
-export type UserProfileType = {
-   aboutMe: string | null
-   contacts: ContactsType
-   lookingForAJob: boolean
-   lookingForAJobDescription: string | null
-   fullName: string
-   userId: number
-   photos: PhotosType
-}
-
-export type ProfilePageType = {
-   posts: Array<PostType>
-   profile: UserProfileType | null
-   status: string | null
-   photos: PhotosType
-}
-
-type ActionType = AddNewPostActionType
-   | SetUserProfileType
-   | SetStatusType
-   | SetMyPhotoType
 
 
 const initialState: ProfilePageType = {
@@ -69,7 +30,7 @@ const initialState: ProfilePageType = {
    }
 }
 
-export const profileReducer = (state = initialState, action: ActionType): ProfilePageType => {
+export const profileReducer = (state = initialState, action: ProfileActionsType): ProfilePageType => {
    switch (action.type) {
       case ADD_NEW_POST:
          const post: PostType = {
@@ -106,38 +67,87 @@ export const setUserProfileAC = (profile: UserProfileType) => ({type: SET_USER_P
 export const setStatusAC = (status: string) => ({type: SET_STATUS, status} as const)
 export const setMyPhotoAC = (photo: PhotosType) => ({type: SET_PHOTO, photo} as const)
 
-//thunk creator
-export const getUserProfile = (userId: number) => (dispatch: Dispatch) => {
-   profileAPI.getProfile(userId)
-      .then((data: UserProfileType) => {
-         dispatch(setUserProfileAC(data));
-      });
+/**
+ * thunk creator
+ */
+export const getUserProfile = (userId: number): AppThunkType => async dispatch => {
+   try {
+      const data = await profileAPI.getProfile(userId);
+      dispatch(setUserProfileAC(data));
+   } catch (err) {
+      console.warn(err);
+   }
 }
 
-export const getMyPhoto = (userId: number) => (dispatch: Dispatch) => {
-   profileAPI.getProfile(userId)
-      .then((response) => {
-         dispatch(setMyPhotoAC(response.photos));
-      });
+export const getMyPhoto = (userId: number): AppThunkType => async dispatch => {
+   try {
+      const data = await profileAPI.getProfile(userId);
+      dispatch(setMyPhotoAC(data.photos));
+   } catch (err) {
+      console.warn(err);
+   }
 }
 
-export const getStatus = (userId: number) => (dispatch: Dispatch) => {
-   profileAPI.getStatus(userId)
-      .then(response => {
-         dispatch(setStatusAC(response.data));
-      })
+export const getStatus = (userId: number): AppThunkType => async dispatch => {
+   try {
+      const data = await profileAPI.getStatus(userId);
+      dispatch(setStatusAC(data));
+   } catch (err) {
+      console.warn(err);
+   }
 }
 
-export const updateStatus = (status: string) => (dispatch: Dispatch) => {
-   profileAPI.updateStatus(status)
-      .then(response => {
-         if (response.data.resultCode === 0) {
-            dispatch(setStatusAC(status));
-         }
-      })
+export const updateStatus = (status: string): AppThunkType => async dispatch => {
+   try {
+      const data = await profileAPI.updateStatus(status);
+      if (data.resultCode === 0) {
+         dispatch(setStatusAC(status));
+      }
+   } catch (err) {
+      console.warn(err);
+   }
 }
+
+/**
+ * type
+ */
+export type ProfileActionsType = AddNewPostActionType
+   | SetUserProfileType
+   | SetStatusType
+   | SetMyPhotoType
 
 export type AddNewPostActionType = ReturnType<typeof addPostAC>
 export type SetUserProfileType = ReturnType<typeof setUserProfileAC>
 export type SetStatusType = ReturnType<typeof setStatusAC>
 export type SetMyPhotoType = ReturnType<typeof setMyPhotoAC>
+
+export type PostType = {
+   id?: string
+   message: string
+   countLike: number
+}
+type ContactsType = {
+   facebook: string | null
+   website: string | null
+   vk: string | null
+   twitter: string | null
+   instagram: string | null
+   youtube: string | null
+   github: string | null
+   mainLink: string | null
+}
+export type UserProfileType = {
+   aboutMe: string | null
+   contacts: ContactsType
+   lookingForAJob: boolean
+   lookingForAJobDescription: string | null
+   fullName: string
+   userId: number
+   photos: PhotosType
+}
+export type ProfilePageType = {
+   posts: Array<PostType>
+   profile: UserProfileType | null
+   status: string | null
+   photos: PhotosType
+}
