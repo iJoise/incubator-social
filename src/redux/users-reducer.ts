@@ -78,11 +78,11 @@ export const toggleFollowingProgressAC = (following: boolean, userId: number) =>
 /**
  * ThunkCreator
  */
-export const getUsers = (currentPage: number, pageSize: number): AppThunkType => async dispatch => {
+export const requestUsers = (page: number, pageSize: number): AppThunkType => async dispatch => {
    try {
       dispatch(toggleIsFetchingAC(true));
-      dispatch(setCurrentPageAC(currentPage));
-      const data = await usersAPI.getUsers(currentPage, pageSize);
+      dispatch(setCurrentPageAC(page));
+      const data = await usersAPI.getUsers(page, pageSize);
       dispatch(setUsersAC(data.items));
       dispatch(setTotalUsersCountAC(data.totalCount));
    } catch (err) {
