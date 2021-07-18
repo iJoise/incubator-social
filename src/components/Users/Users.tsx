@@ -16,7 +16,7 @@ type UsersPropsType = {
 }
 
 
-export const Users: React.FC<UsersPropsType> = (props) => {
+export const Users: React.FC<UsersPropsType> = React.memo((props) => {
 
    const {
       users,
@@ -87,4 +87,4 @@ export const Users: React.FC<UsersPropsType> = (props) => {
          </div>
       </div>
    )
-}
+})

@@ -4,7 +4,7 @@ import preloader from "../../../assets/images/loading.svg";
 
 
 
-export const Preloader = () => {
+export const Preloader = React.memo(() => {
 
    return (
       <>
@@ -14,4 +14,4 @@ export const Preloader = () => {
          </div>
       </>
    )
-}
+})
