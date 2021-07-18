@@ -76,6 +76,6 @@ export default compose<React.ComponentType>(
       setCurrentPageAC,
       getUsers,
    }),
-   withAuthRedirectComponent
+   // withAuthRedirectComponent
 )(UsersContainer);
 

@@ -7,7 +7,7 @@
   left: 0;
   justify-content: center;
   align-items: center;
-  background: rgba(172, 172, 172, 0.78);
+  backdrop-filter: blur(2px);
   z-index: 100;
 }
 

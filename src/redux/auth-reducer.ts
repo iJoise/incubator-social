@@ -44,6 +44,7 @@ export const getAuthUserData = (): AppThunkType => async dispatch => {
          const {email, id, login} = data.data;
          dispatch(setAuthUserDataAC(id, email, login, true));
       }
+      return data;
    } catch(err) {
       console.warn(err);
    }

@@ -1,6 +1,6 @@
 import React from "react";
 import Header from "./Header";
-import {getAuthUserData, logout} from "../../redux/auth-reducer";
+import {logout} from "../../redux/auth-reducer";
 import {connect, ConnectedProps} from "react-redux";
 import {AppStateType} from "../../redux/redux-store";
 import {getMyPhoto} from "../../redux/profile-reducer";
@@ -9,7 +9,6 @@ import {getMyPhoto} from "../../redux/profile-reducer";
 class HeaderContainer extends React.Component<TProps> {
 
    componentDidMount() {
-      this.props.getAuthUserData();
       const userId = '17599'
       this.props.getMyPhoto(+userId);
    }
@@ -34,7 +33,6 @@ const mapStateToProps = (state: AppStateType) => ({
 })
 
 const connector = connect(mapStateToProps, {
-   getAuthUserData,
    getMyPhoto,
    logout,
 });
