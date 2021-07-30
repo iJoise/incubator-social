@@ -40,7 +40,7 @@ type AddPostFormPropsType = {
 
 const maxLength20 = maxLengthCreator(20);
 
-export const AddPostForm: React.FC<InjectedFormProps<AddPostFormPropsType>> = (props) => {
+export const AddPostForm: React.FC<InjectedFormProps<AddPostFormPropsType>> = React.memo((props) => {
    return (
       <form className={style.newPost} onSubmit={props.handleSubmit}>
          <label>My post</label>
@@ -55,7 +55,7 @@ export const AddPostForm: React.FC<InjectedFormProps<AddPostFormPropsType>> = (p
          </div>
       </form>
    )
-}
+})
 
 const AddPostReduxForm = reduxForm<AddPostFormPropsType>({
    form: 'addPostForm'

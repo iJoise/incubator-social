@@ -18,6 +18,10 @@ export class ProfileStatus extends Component<ProfileStatusPropsType> {
       status: this.props.status
    }
 
+   shouldComponentUpdate(nextProps: Readonly<ProfileStatusPropsType>, nextState: Readonly<{}>): boolean {
+      return nextProps !== this.props || nextState !== this.state
+   }
+
    componentWillUnmount() {
       this.setState({
          status: ''

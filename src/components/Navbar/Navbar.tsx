@@ -4,13 +4,13 @@ import {Navigation} from "./Navigation/Navigation";
 import {MyFriendsContainer} from "./MyFriends/MyFriendsContainer";
 
 
-export const Navbar = () => {
+export const Navbar = React.memo(() => {
    return (
       <aside className={style.aside}>
          <Navigation/>
          <MyFriendsContainer />
       </aside>
    );
-};
+});
 
 

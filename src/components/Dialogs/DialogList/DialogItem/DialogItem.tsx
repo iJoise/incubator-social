@@ -5,7 +5,7 @@ import {DialogsType} from "../../../../redux/dialog-reducer";
 
 
 
-const DialogItem:React.FC<DialogsType> = ({id,avatar,name}) => {
+const DialogItem:React.FC<DialogsType> = React.memo(({id,avatar,name}) => {
    let path = `/dialogs/${id}`;
    return (
       <div className={style.dialog}>
@@ -18,6 +18,6 @@ const DialogItem:React.FC<DialogsType> = ({id,avatar,name}) => {
          </NavLink>
       </div>
    );
-};
+});
 
 export default DialogItem;

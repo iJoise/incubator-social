@@ -28,6 +28,10 @@ type PropsType = RouteComponentProps<PathParamType> & MapStateToPropsType & MapD
 
 class ProfileContainer extends React.Component<PropsType> {
 
+   shouldComponentUpdate(nextProps: Readonly<PropsType>, nextState: Readonly<{}>): boolean {
+      return nextProps !== this.props || nextState !== this.state;
+   }
+
    componentDidMount() {
       let userId = this.props.match.params.userId;
       !userId && (userId = String(this.props.authorizedUserId));

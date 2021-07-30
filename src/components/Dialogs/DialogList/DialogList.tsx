@@ -6,7 +6,7 @@ import {DialogsType} from "../../../redux/dialog-reducer";
 type DialogListPropsType = {
    dialogs: DialogsType[]
 }
-export const DialogList: React.FC<DialogListPropsType> = ({dialogs}) => {
+export const DialogList: React.FC<DialogListPropsType> = React.memo(({dialogs}) => {
 
    const dialogsElements = dialogs.map(d => <DialogItem key={d.id} name={d.name} id={d.id} avatar={d.avatar}/>);
 
@@ -18,4 +18,4 @@ export const DialogList: React.FC<DialogListPropsType> = ({dialogs}) => {
          </div>
       </div>
    )
-}
+})

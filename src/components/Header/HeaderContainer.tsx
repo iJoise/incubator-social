@@ -8,8 +8,12 @@ import {getMyPhoto} from "../../redux/profile-reducer";
 
 class HeaderContainer extends React.Component<TProps> {
 
+   shouldComponentUpdate(nextProps: Readonly<TProps>, nextState: Readonly<{}>): boolean {
+      return nextProps !== this.props || nextState !== this.state;
+   }
+
    componentDidMount() {
-      const userId = '17599'
+      const userId = '17599';
       this.props.getMyPhoto(+userId);
    }
 

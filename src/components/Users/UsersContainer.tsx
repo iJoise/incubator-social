@@ -35,6 +35,10 @@ type UserContainerType = MapDispatchToPropsType & MapStateToPropsType
 
 export class UsersContainer extends React.Component<UserContainerType> {
 
+   shouldComponentUpdate(nextProps: Readonly<UserContainerType>, nextState: Readonly<{}>): boolean {
+      return nextProps !== this.props || nextState !== this.state;
+   }
+
    componentDidMount() {
       this.props.requestUsers(this.props.currentPage, this.props.pageSize);
    }

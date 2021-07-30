@@ -16,7 +16,7 @@ type FormDataType = {
 
 const maxLength30 = maxLengthCreator(30)
 
-export const LoginForm: React.FC<InjectedFormProps<FormDataType>> = (props) => {
+export const LoginForm: React.FC<InjectedFormProps<FormDataType>> = React.memo((props) => {
    return (
       <form onSubmit={props.handleSubmit}>
          {
@@ -61,7 +61,7 @@ export const LoginForm: React.FC<InjectedFormProps<FormDataType>> = (props) => {
          <button className={`${s.btn}`}>LOGIN</button>
       </form>
    )
-}
+})
 
 const LoginReduxForm = reduxForm<FormDataType>({
    form: 'login'
@@ -72,7 +72,7 @@ type LoginPropsType = {
    isAuth: boolean
 }
 
-const Login: React.FC<LoginPropsType> = ({login, isAuth}) => {
+const Login: React.FC<LoginPropsType> = React.memo(({login, isAuth}) => {
 
    const onSubmit = ({email, password, rememberMe}: FormDataType) => {
       login(email, password, rememberMe);
@@ -99,7 +99,7 @@ const Login: React.FC<LoginPropsType> = ({login, isAuth}) => {
          </div>
       </div>
    )
-}
+})
 
 type MapDispatchToPropsType = {
    login: (email: string, password: string, rememberMe: boolean) => void

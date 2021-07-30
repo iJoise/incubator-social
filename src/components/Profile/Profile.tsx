@@ -9,7 +9,7 @@ type ProfilePropsType = {
    updateStatus: (status: string) => void
 }
 
-export const Profile: React.FC<ProfilePropsType> = (props) => {
+export const Profile: React.FC<ProfilePropsType> = React.memo((props) => {
 
    const {profile, status, updateStatus} = props;
 
@@ -20,5 +20,5 @@ export const Profile: React.FC<ProfilePropsType> = (props) => {
             <MyPostsContainer/>
          </>
       );
-   };
+   });
 

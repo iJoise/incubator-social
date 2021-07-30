@@ -47,7 +47,6 @@
 
 .messages {
   padding: 0 30px 0 20px;
-  overflow-y: scroll;
   height: calc(100vh - 100px);
   position: relative;
   display: flex;
@@ -80,7 +79,7 @@
 
 .messagesBody {
   flex: 1 1 auto;
-
+  overflow-y: scroll;
 }
 
 .messageBottom {

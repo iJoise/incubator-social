@@ -10,7 +10,7 @@ type DialogsPropsType = {
    sendMessage: (newMessage: string) => void
 }
 
-export const Dialogs: React.FC<DialogsPropsType> = (props) => {
+export const Dialogs: React.FC<DialogsPropsType> = React.memo((props) => {
    const {dialogs, messages, sendMessage} = props;
 
    return (
@@ -22,6 +22,6 @@ export const Dialogs: React.FC<DialogsPropsType> = (props) => {
          />
       </div>
    );
-};
+});
 
 

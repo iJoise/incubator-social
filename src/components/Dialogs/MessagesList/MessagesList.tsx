@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import Message from "./Message/Message";
 import style from "../Dialogs.module.scss";
 import {MessageType} from "../../../redux/dialog-reducer";
@@ -13,14 +13,19 @@ type MessagesListPropsType = {
 }
 
 
-export const MessagesList: React.FC<MessagesListPropsType> = (
-   {
-      messages,
-      sendMessage
-   }) => {
+export const MessagesList: React.FC<MessagesListPropsType> = React.memo((props) => {
+
+   const {messages, sendMessage} = props;
 
    const messagesElement = messages.map(m => <Message key={m.id} message={m.message} id={m.id}/>);
+   const messagesRef = React.createRef<HTMLDivElement>();
 
+   useEffect(() => {
+      const div = messagesRef.current;
+      if (div) {
+         div.scrollTo(0, div.scrollHeight)
+      }
+   })
 
    const addNewMessage = (formData: AddMessageFormDataType) => {
       sendMessage(formData.message);
@@ -38,13 +43,15 @@ export const MessagesList: React.FC<MessagesListPropsType> = (
             <i className="fa fa-sliders"/>
          </div>
 
-         <div className={style.messagesBody}>{messagesElement}</div>
+         <div className={style.messagesBody} ref={messagesRef}>
+            {messagesElement}
+         </div>
 
          <AddMessageReduxForm onSubmit={addNewMessage}/>
 
       </div>
    )
-}
+})
 
 
 type AddMessageFormDataType = {
@@ -53,7 +60,7 @@ type AddMessageFormDataType = {
 
 const maxLength200 = maxLengthCreator(100);
 
-const AddMessageForm: React.FC<InjectedFormProps<AddMessageFormDataType>> = (props) => {
+const AddMessageForm: React.FC<InjectedFormProps<AddMessageFormDataType>> = React.memo((props) => {
    const sendButton = `fa fa-paper-plane ${style.btnSend}`;
 
    return (
@@ -70,7 +77,7 @@ const AddMessageForm: React.FC<InjectedFormProps<AddMessageFormDataType>> = (pro
             <i className="fa fa-microphone"/></div>
       </form>
    )
-}
+})
 
 const AddMessageReduxForm = reduxForm<AddMessageFormDataType>({
    form: 'dialogAddMessageForm'

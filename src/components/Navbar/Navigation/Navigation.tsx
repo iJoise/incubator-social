@@ -3,7 +3,7 @@ import style from "./Navigation.module.scss";
 import {NavLink} from "react-router-dom";
 
 
-export const Navigation = () => {
+export const Navigation = React.memo(() => {
    return (
       <>
          <nav className={style.nav}>
@@ -48,4 +48,4 @@ export const Navigation = () => {
          </nav>
       </>
    );
-};
+});

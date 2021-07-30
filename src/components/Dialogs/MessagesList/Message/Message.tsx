@@ -3,8 +3,8 @@ import React from "react";
 import {MessageType} from "../../../../redux/dialog-reducer";
 
 
-const Message: React.FC<MessageType> = ({message}) => {
+const Message: React.FC<MessageType> = React.memo(({message}) => {
    return <div className={style.message}>{message}</div>;
-};
+});
 
 export default Message;

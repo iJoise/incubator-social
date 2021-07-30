@@ -12,7 +12,7 @@ type HeaderPropsType = {
    photoUser: PhotosType
 }
 
-const Header: React.FC<HeaderPropsType> = ({isAuth, login, photoUser, logout}) => {
+const Header: React.FC<HeaderPropsType> = React.memo(({isAuth, login, photoUser, logout}) => {
    return (
       <header className={style.header}>
          <img className={style.header__logo} src={logo} alt=""/>
@@ -52,7 +52,7 @@ const Header: React.FC<HeaderPropsType> = ({isAuth, login, photoUser, logout}) =
          }
       </header>
    )
-}
+})
 
 
 export default Header;

@@ -10,7 +10,7 @@ type PostPropsType = PostType & {
 }
 
 
-export const Post: React.FC<PostPropsType> = (props) => {
+export const Post: React.FC<PostPropsType> = React.memo((props) => {
 
    const {message, countLike} = props
 
@@ -44,5 +44,5 @@ export const Post: React.FC<PostPropsType> = (props) => {
          </div>
       </div>
    );
-};
+});
 
