@@ -1,14 +1,13 @@
 import {usersAPI} from "../api/api";
 import {AppThunkType} from "./redux-store";
 
-const FOLLOW = 'FOLLOW';
-const UNFOLLOW = 'UNFOLLOW';
-const SET_USERS = 'SET-USERS';
-const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE';
-const SET_TOTAL_USERS_COUNT = 'SET_TOTAL_USERS_COUNT';
-const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING'
-const TOGGLE_IS_FOLLOWING_PROGRESS = 'TOGGLE_IS_FOLLOWING_PROGRESS'
-
+const FOLLOW = 'social/user/FOLLOW';
+const UNFOLLOW = 'social/user/UNFOLLOW';
+const SET_USERS = 'social/user/SET-USERS';
+const SET_CURRENT_PAGE = 'social/user/SET_CURRENT_PAGE';
+const SET_TOTAL_USERS_COUNT = 'social/user/SET_TOTAL_USERS_COUNT';
+const TOGGLE_IS_FETCHING = 'social/user/TOGGLE_IS_FETCHING';
+const TOGGLE_IS_FOLLOWING_PROGRESS = 'social/user/TOGGLE_IS_FOLLOWING_PROGRESS';
 
 const initialState: UsersPageType = {
    items: [],
@@ -74,7 +73,6 @@ export const toggleFollowingProgressAC = (following: boolean, userId: number) =>
    following,
    userId,
 } as const);
-
 /**
  * ThunkCreator
  */
@@ -117,7 +115,6 @@ export const unfollow = (id: number): AppThunkType => async dispatch => {
       dispatch(toggleFollowingProgressAC(false, id));
    }
 }
-
 /**
  * type
  */

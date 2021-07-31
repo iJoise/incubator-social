@@ -2,7 +2,7 @@ import {AppThunkType} from "./redux-store";
 import {getAuthUserData} from "./auth-reducer";
 
 
-const INITIALIZED_SUCCESS = 'INITIALIZED_SUCCESS';
+const INITIALIZED_SUCCESS = 'social/app/INITIALIZED_SUCCESS';
 
 const initialState: AppInitStateType = {
    initialized: false
@@ -10,7 +10,7 @@ const initialState: AppInitStateType = {
 
 export const appReducer = (state: AppInitStateType = initialState, action: AppActionType): AppInitStateType => {
    switch (action.type) {
-      case "INITIALIZED_SUCCESS":
+      case INITIALIZED_SUCCESS:
          return {
             ...state,
             initialized: true

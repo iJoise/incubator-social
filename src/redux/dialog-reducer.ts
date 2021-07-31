@@ -1,7 +1,7 @@
 import {v1} from "uuid";
 
 
-const ADD_NEW_MESSAGE = 'ADD-NEW-MESSAGE';
+const ADD_NEW_MESSAGE = 'social/dialog/ADD-NEW-MESSAGE';
 
 const initialState: DialogsPageType = {
    dialogs: [

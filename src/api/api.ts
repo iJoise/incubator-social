@@ -59,7 +59,7 @@ export const profileAPI = {
    },
 }
 
-type ResponseType<D = {}> = {
+export type ResponseType<D = {}> = {
    fieldsErrors: string[]
    resultCode: number
    messages: string[]

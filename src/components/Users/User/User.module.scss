@@ -1,0 +1,57 @@
+.user {
+  display: flex;
+  flex-direction: column;
+  margin: 0 0 20px 0;
+
+
+  &__body {
+    display: flex;
+    border-radius: 10px;
+    box-shadow: 20px 20px 60px #bebebe,
+    -20px -20px 60px #ffffff;
+    padding: 10px;
+  }
+
+  &__img {
+    width: 100px;
+
+    img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+    }
+  }
+
+  &__item {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding: 0 0 0 10%;
+    flex: 1 1 auto;
+  }
+
+  &__name {
+    font-size: 18px;
+    font-weight: 600;
+    padding: 0 0 5px 0;
+  }
+
+  &__status {
+    font-size: 14px;
+    font-style: italic;
+    color: #666;
+  }
+
+}
+
+.btn {
+  width: 90px;
+  height: 30px;
+
+  &__bl {
+    background-color: #0e6ebc;
+    color: white;
+  }
+}
+
+

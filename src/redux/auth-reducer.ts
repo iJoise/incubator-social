@@ -2,7 +2,7 @@ import {authAPI} from "../api/api";
 import {stopSubmit} from "redux-form";
 import {AppThunkType} from "./redux-store";
 
-const SET_USER_DATA = 'SET_USER_DATA';
+const SET_USER_DATA = 'social/auth/SET_USER_DATA';
 
 
 const initialState: AuthType = {
@@ -24,15 +24,8 @@ export const authReducer = (state: AuthType = initialState, action: AuthActionsT
    }
 }
 
-export const setAuthUserDataAC = (id: number | null, email: string | null, login: string | null, isAuth: boolean) => ({
-   type: SET_USER_DATA,
-   payload: {
-      id,
-      email,
-      login,
-      isAuth,
-   }
-} as const);
+export const setAuthUserDataAC = (id: number | null, email: string | null, login: string | null, isAuth: boolean) =>
+   ({type: SET_USER_DATA, payload: {id, email, login, isAuth,}} as const);
 
 /**
  * thunk creator
@@ -44,7 +37,6 @@ export const getAuthUserData = (): AppThunkType => async dispatch => {
          const {email, id, login} = data.data;
          dispatch(setAuthUserDataAC(id, email, login, true));
       }
-      return data;
    } catch(err) {
       console.warn(err);
    }

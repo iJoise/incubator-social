@@ -1,8 +1,8 @@
 import React from "react";
 import s from "./Users.module.scss";
-import userPhoto from "../../assets/images/user.png";
 import {UsersType} from "../../redux/users-reducer";
-import {NavLink} from "react-router-dom";
+import {Paginator} from "../common/Paginator/Paginator";
+import {User} from "./User/User";
 
 type UsersPropsType = {
    users: UsersType[]
@@ -29,62 +29,22 @@ export const Users: React.FC<UsersPropsType> = React.memo((props) => {
       followingInProgress,
    } = props;
 
-   const pageCount = Math.ceil(totalUsersCount / pageSize);
-   const pages = [];
-   for (let i = 1; i <= pageCount; i++) {
-      pages.push(i);
-   }
 
-   const usersList = users.map(u => {
-         return (
-            <div key={u.id} className={s.user__body}>
-               <div className={s.user__img}>
-                  <NavLink to={'/profile/' + u.id}>
-                     <img src={u.photos.small || userPhoto} alt={'avatar'}/>
-                  </NavLink>
-               </div>
-               <div className={s.user__item}>
-                  <div className={s.user__info}>
-                     <div className={s.user__name}>{u.name}</div>
-                     <div className={s.user__status}>{u.status}</div>
-                  </div>
-                  <div className={s.user__button}>
-                     {u.followed
-                        ? <button className={s.btn}
-                                  disabled={followingInProgress.some(id => id === u.id)}
-                                  onClick={() => {
-                                     unfollow(u.id)
-                                  }
-                                  }>Unfollow</button>
-                        : <button className={`${s.btn} ${s.btn__bl}`}
-                                  disabled={followingInProgress.some(id => id === u.id)}
-                                  onClick={() => {
-                                     follow(u.id)
-                                  }
-                                  }>Follow</button>
-                     }
-                  </div>
-               </div>
-            </div>
-         )
-      }
+   const usersList = users.map(u =>
+      <User user={u} follow={follow} followingInProgress={followingInProgress} unfollow={unfollow} key={u.id}/>
    )
 
    return (
-      <div className={s.user}>
+      <div className={s.user_container}>
+
          {usersList}
-         <div className={s.paginationContainer}>
-            {
-               pages.map(p => {
-                  return <div key={p}
-                              className={currentPage === p ? `${s.pagination} ${s.selected}` : s.pagination}
-                              onClick={() => {
-                                 onPageChanged(p)
-                              }}
-                  >{p}</div>
-               })
-            }
-         </div>
+
+         <Paginator
+            totalUsersCount={totalUsersCount}
+            pageSize={pageSize}
+            currentPage={currentPage}
+            onPageChanged={onPageChanged}
+         />
       </div>
    )
 })

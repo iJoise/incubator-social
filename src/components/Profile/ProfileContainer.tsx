@@ -71,4 +71,5 @@ export default compose<React.ComponentType>(
    }),
    withRouter,
    withAuthRedirectComponent,
+   React.memo,
 )(ProfileContainer);

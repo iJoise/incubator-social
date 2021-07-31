@@ -3,11 +3,10 @@ import {PhotosType} from "./users-reducer";
 import {profileAPI} from "../api/api";
 import {AppThunkType} from "./redux-store";
 
-const ADD_NEW_POST = 'ADD-NEW-POST';
-const SET_USER_PROFILE = 'SET_USER_PROFILE';
-const SET_STATUS = 'SET_STATUS';
-const SET_PHOTO = 'SET_PHOTO';
-
+const ADD_NEW_POST = 'social/profile/ADD-NEW-POST';
+const SET_USER_PROFILE = 'social/profile/SET_USER_PROFILE';
+const SET_STATUS = 'social/profile/SET_STATUS';
+const SET_PHOTO = 'social/profile/SET_PHOTO';
 
 const initialState: ProfilePageType = {
    posts: [
