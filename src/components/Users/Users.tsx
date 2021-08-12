@@ -40,7 +40,7 @@ export const Users: React.FC<UsersPropsType> = React.memo((props) => {
          {usersList}
 
          <Paginator
-            totalUsersCount={totalUsersCount}
+            totalItemsCount={totalUsersCount}
             pageSize={pageSize}
             currentPage={currentPage}
             onPageChanged={onPageChanged}

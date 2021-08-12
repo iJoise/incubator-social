@@ -99,6 +99,5 @@ export default compose<React.ComponentType>(
       setCurrentPageAC,
       requestUsers,
    }),
-   React.memo,
 )(UsersContainer);
 

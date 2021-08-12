@@ -1,15 +1,30 @@
 
 .selected {
-  font-weight: bold;
+  background-color: #666666;
+  color: white;
 }
 
 .paginationContainer {
   display: flex;
-  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
   margin: 0 0 20px 0;
 }
 
 .pagination {
   cursor: pointer;
-  padding: 0 5px 0 0;
+  padding: 5px;
+}
+
+.btn {
+  width: 90px;
+  height: 30px;
+  background-color: #0e6ebc;
+  color: white;
+  &:first-child {
+    margin-right: 15px;
+  }
+  &:last-child {
+    margin-left: 15px;
+  }
 }
