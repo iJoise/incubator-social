@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {ChangeEvent} from 'react';
 import style from './ProfileInfo.module.scss';
 import {UserProfileType} from '../../../redux/profile-reducer';
 import {Preloader} from '../../common/preloader/Preloader';
@@ -18,11 +18,20 @@ type ProfileInfoPropsType = {
    profile: UserProfileType | null
    status: string | null
    updateStatus: (status: string) => void
+   isOwner: boolean
+   savePhoto: (photo: File) => void
 }
 
 export const ProfileInfo: React.FC<ProfileInfoPropsType> = React.memo((props) => {
 
-   const {profile, status, updateStatus} = props;
+   const {profile, status, updateStatus, isOwner, savePhoto} = props;
+
+   const onMainPhotoSelected = (e: ChangeEvent<HTMLInputElement>) => {
+      e.target.files
+      && e.target.files.length
+      && savePhoto(e.target.files[0])
+
+   }
 
    if (!profile) {
       return <Preloader/>
@@ -34,10 +43,10 @@ export const ProfileInfo: React.FC<ProfileInfoPropsType> = React.memo((props) =>
             <img src={profileHeader} alt="headImage"/>
          </div>
          <div className={style.profile}>
-            <img
-               src={profile.photos.large ? profile.photos.large : userPhoto}
-               alt="this is avatar"
-            />
+            <div className={style.profile__avatar}>
+               <img src={profile.photos.large ? profile.photos.large : userPhoto} alt="this is avatar"/>
+               {isOwner && <input className={style.profile__load} type="file" onChange={onMainPhotoSelected}/>}
+            </div>
             <div className={style.profile__body}>
                <h3>{profile.fullName}</h3>
                <ProfileStatus

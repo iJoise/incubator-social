@@ -1,6 +1,6 @@
 import axios from "axios";
 import {AuthDataType} from "../redux/auth-reducer";
-import {UsersType} from "../redux/users-reducer";
+import {PhotosType, UsersType} from "../redux/users-reducer";
 import {UserProfileType} from "../redux/profile-reducer";
 
 
@@ -50,13 +50,23 @@ export const profileAPI = {
          return response.data;
    },
    async getStatus(id: number) {
-      const response = await instance.get<string>(`/profile/status/${id}`);
+      const response = await instance.get<string>(`profile/status/${id}`);
       return response.data
    },
    async updateStatus(status: string) {
-      const response = await instance.put<ResponseType>(`/profile/status`, {status});
+      const response = await instance.put<ResponseType>(`profile/status`, {status});
       return response.data
    },
+   async savePhoto(photo: File) {
+      const formData = new FormData()
+      formData.append('image', photo)
+      const response = await instance.put<ResponseType<{photos: PhotosType}>>(`profile/photo`, formData, {
+         headers: {
+            'Content-Type': 'multipart/form-data'
+         }
+      });
+      return response.data
+   }
 }
 
 export type ResponseType<D = {}> = {

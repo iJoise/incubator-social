@@ -4,7 +4,7 @@ import {Navbar} from './components/Navbar/Navbar';
 import Settings from './components/Settings/Settings';
 import Music from './components/Music/Music';
 import News from './components/News/News';
-import {Route, Switch, withRouter} from "react-router-dom";
+import {Redirect, Route, Switch, withRouter} from "react-router-dom";
 import {connect} from "react-redux";
 import {compose} from "redux";
 import {initializeApp} from "./redux/app-reducer";
@@ -37,12 +37,13 @@ class App extends Component<PropsType> {
             <main className="app-wrapper-content">
                <Switch>
                   <Route path="/dialogs" render={WithSuspense(DialogsContainer)}/>
-                  <Route path="/profile/:userId?" render={WithSuspense(ProfileContainer)}/>
+                  <Route path="/profile/:userId?" exact render={WithSuspense(ProfileContainer)}/>
                   <Route path="/users" render={WithSuspense(UsersContainer)}/>
                   <Route path="/login" render={() => <Login/>}/>
                   <Route path="/news" render={() => <News/>}/>
                   <Route path="/music" render={() => <Music/>}/>
                   <Route path="/settings" render={() => <Settings/>}/>
+                  <Redirect to='/profile'/>
                </Switch>
             </main>
          </div>

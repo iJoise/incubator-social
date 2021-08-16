@@ -2,7 +2,7 @@ import React from 'react';
 import {Profile} from "./Profile";
 import {AppStateType} from "../../redux/redux-store";
 import {connect} from "react-redux";
-import {getStatus, getUserProfile, updateStatus, UserProfileType} from "../../redux/profile-reducer";
+import {getStatus, getUserProfile, savePhoto, updateStatus, UserProfileType} from "../../redux/profile-reducer";
 import {RouteComponentProps, withRouter} from 'react-router-dom';
 import {compose} from 'redux';
 import {withAuthRedirectComponent} from "../../hoc/withAuthRedirect";
@@ -21,6 +21,7 @@ type MapDispatchToPropsType = {
    getUserProfile: (userId: number) => void
    getStatus: (userId: number) => void
    updateStatus: (status: string) => void
+   savePhoto: (photo: File) => void
 }
 
 type PropsType = RouteComponentProps<PathParamType> & MapStateToPropsType & MapDispatchToPropsType
@@ -28,16 +29,26 @@ type PropsType = RouteComponentProps<PathParamType> & MapStateToPropsType & MapD
 
 class ProfileContainer extends React.Component<PropsType> {
 
+   refreshProfile() {
+      let userId = this.props.match.params.userId;
+      !userId && (userId = String(this.props.authorizedUserId));
+      this.props.getUserProfile(+userId);
+      this.props.getStatus(+userId)
+   }
+
    shouldComponentUpdate(nextProps: Readonly<PropsType>, nextState: Readonly<{}>): boolean {
       return nextProps !== this.props || nextState !== this.state;
    }
 
    componentDidMount() {
-      let userId = this.props.match.params.userId;
-      !userId && (userId = String(this.props.authorizedUserId));
-      // !userId && this.props.history.push('/login')
-      this.props.getUserProfile(+userId);
-      this.props.getStatus(+userId)
+      this.refreshProfile()
+   }
+
+   componentDidUpdate(prevProps: Readonly<PropsType>, prevState: Readonly<{}>) {
+      if (this.props.match.params.userId !== prevProps.match.params.userId) {
+         this.refreshProfile()
+      }
+
    }
 
    render() {
@@ -45,9 +56,11 @@ class ProfileContainer extends React.Component<PropsType> {
          <>
             <Profile
                {...this.props}
+               isOwner={!this.props.match.params.userId}
                profile={this.props.profile}
                status={this.props.status}
                updateStatus={this.props.updateStatus}
+               savePhoto={this.props.savePhoto}
             />
          </>
       );
@@ -68,6 +81,7 @@ export default compose<React.ComponentType>(
       getUserProfile,
       getStatus,
       updateStatus,
+      savePhoto,
    }),
    withRouter,
    withAuthRedirectComponent,

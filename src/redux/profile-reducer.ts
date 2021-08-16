@@ -7,6 +7,7 @@ const ADD_NEW_POST = 'social/profile/ADD-NEW-POST';
 const SET_USER_PROFILE = 'social/profile/SET_USER_PROFILE';
 const SET_STATUS = 'social/profile/SET_STATUS';
 const SET_PHOTO = 'social/profile/SET_PHOTO';
+const SAVE_PHOTOS_SUCCESS = 'social/profile/SAVE_PHOTOS_SUCCESS';
 
 const initialState: ProfilePageType = {
    posts: [
@@ -56,6 +57,11 @@ export const profileReducer = (state = initialState, action: ProfileActionsType)
             ...state,
             photos: action.photo
          }
+      case SAVE_PHOTOS_SUCCESS:
+         return {
+            ...state,
+            profile: state.profile && {...state.profile, photos: action.photos}
+         }
       default:
          return state;
    }
@@ -65,6 +71,8 @@ export const addPostAC = (newPost: string) => ({type: ADD_NEW_POST, newPost} as 
 export const setUserProfileAC = (profile: UserProfileType) => ({type: SET_USER_PROFILE, profile} as const)
 export const setStatusAC = (status: string) => ({type: SET_STATUS, status} as const)
 export const setMyPhotoAC = (photo: PhotosType) => ({type: SET_PHOTO, photo} as const)
+export const savePhotoSuccess = (photos: PhotosType) => ({type: SAVE_PHOTOS_SUCCESS, photos} as const)
+
 
 /**
  * thunk creator
@@ -107,6 +115,17 @@ export const updateStatus = (status: string): AppThunkType => async dispatch => 
    }
 }
 
+export const savePhoto = (photo: File): AppThunkType => async dispatch => {
+   try {
+      const data = await profileAPI.savePhoto(photo)
+      if (data.resultCode === 0) {
+         dispatch(savePhotoSuccess(data.data.photos))
+      }
+   } catch (err) {
+      console.warn(err);
+   }
+}
+
 /**
  * type
  */
@@ -114,11 +133,14 @@ export type ProfileActionsType = AddNewPostActionType
    | SetUserProfileType
    | SetStatusType
    | SetMyPhotoType
+   | SavePhotosType
 
 export type AddNewPostActionType = ReturnType<typeof addPostAC>
 export type SetUserProfileType = ReturnType<typeof setUserProfileAC>
 export type SetStatusType = ReturnType<typeof setStatusAC>
 export type SetMyPhotoType = ReturnType<typeof setMyPhotoAC>
+export type SavePhotosType = ReturnType<typeof savePhotoSuccess>
+
 
 export type PostType = {
    id?: string

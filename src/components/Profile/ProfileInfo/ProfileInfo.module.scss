@@ -9,6 +9,35 @@
     object-fit: cover;
   }
 
+  &__avatar {
+    position: relative;
+  }
+
+  &__load {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    cursor: pointer;
+    width: 34px;
+    height: 34px;
+    overflow: hidden;
+    &::-webkit-file-upload-button {
+      visibility: hidden;
+    }
+    &:before {
+      width: 32px;
+      height: 32px;
+      font-size: 16px;
+      line-height: 32px;
+      content: '+';
+      display: inline-block;
+      background: white;
+      border: 1px solid #000;
+      border-radius: 50%;
+      padding: 0 10px;
+    }
+  }
+
   &__body {
     padding: 0 0 0 30px;
 

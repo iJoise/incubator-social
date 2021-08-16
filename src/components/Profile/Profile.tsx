@@ -7,16 +7,18 @@ type ProfilePropsType = {
    profile: UserProfileType | null
    status: string | null
    updateStatus: (status: string) => void
+   isOwner: boolean
+   savePhoto: (photo: File) => void
 }
 
 export const Profile: React.FC<ProfilePropsType> = React.memo((props) => {
 
-   const {profile, status, updateStatus} = props;
+   const {profile, status, updateStatus, isOwner, savePhoto} = props;
 
 
       return (
          <>
-            <ProfileInfo profile={profile} status={status} updateStatus={updateStatus}/>
+            <ProfileInfo profile={profile} status={status} updateStatus={updateStatus} isOwner={isOwner} savePhoto={savePhoto}/>
             <MyPostsContainer/>
          </>
       );
