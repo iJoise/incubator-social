@@ -1,4 +1,17 @@
 
+.chat {
+  display: flex;
+  margin-top: 30px;
+  &__userAvatar {
+    border-radius: 50%;
+  }
+  img {
+    width: 50px;
+    border-radius: 50%;
+  }
+}
+
 .message {
-  padding: 40px 0 10px 0;
+  padding-top: 10px;
+  padding-left: 30px;
 }

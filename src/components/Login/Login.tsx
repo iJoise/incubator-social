@@ -115,4 +115,6 @@ const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
    }
 }
 
-export default connect<MapStateToPropsType, MapDispatchToPropsType, {}, AppStateType>( mapStateToProps, {login})(Login)
+export default connect<MapStateToPropsType, MapDispatchToPropsType, {}, AppStateType>(
+   mapStateToProps,
+   {login})(Login)
