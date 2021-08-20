@@ -7,6 +7,7 @@ import {AuthActionsType, authReducer} from "./auth-reducer";
 import thunkMiddleware, {ThunkAction} from 'redux-thunk';
 import {FormAction, reducer as formReducer} from 'redux-form'
 import {AppActionType, appReducer} from "./app-reducer";
+import {ChatActionType, chatReducer} from "./chat-reducer";
 
 const rootReducer = combineReducers({
    dialogPage: dialogReducer,
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
    auth: authReducer,
    form: formReducer,
    app: appReducer,
+   chat: chatReducer,
 })
 
 export type AppStateType = ReturnType<typeof rootReducer>
@@ -33,6 +35,7 @@ type AppActionsType = AuthActionsType
    | UsersActionsType
    | FormAction
    | AppActionType
+   | ChatActionType
 
 export type AppThunkType<ReturnType = void> = ThunkAction<ReturnType, AppStateType, unknown, AppActionsType>
 // @ts-ignore

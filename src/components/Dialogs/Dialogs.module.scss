@@ -47,7 +47,7 @@
 
 .messages {
   padding: 0 30px 0 20px;
-  height: calc(100vh - 100px);
+  height: calc(100vh - 170px);
   position: relative;
   display: flex;
   flex-direction: column;
@@ -84,9 +84,6 @@
 
 .messageBottom {
   background-color: rgb(232, 231, 231);
-  position: sticky;
-  bottom: 0;
-  left: 0;
   width: 100%;
   min-height: 90px;
   display: flex;
@@ -116,5 +113,10 @@
 
 .btnSend {
   color: #304159 !important;
+  font-size: 27px !important;
+}
+
+.btnDisabled {
+  color: #666666 !important;
   font-size: 27px !important;
 }

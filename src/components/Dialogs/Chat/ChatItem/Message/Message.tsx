@@ -1,14 +1,14 @@
 import style from "./Message.module.scss";
 import React from "react";
-import {ChatMessageType} from "../ChatList";
-import user from '../../../../assets/images/user.png'
+import user from '../../../../../assets/images/user.png'
+import {ChatMessageType} from "../../../../../api/chat-api";
 
 type MessagePropsType = {
    chatItem: ChatMessageType
 }
 
 
-export const Chat: React.FC<MessagePropsType> = React.memo(({chatItem}) => {
+export const Message: React.FC<MessagePropsType> = React.memo(({chatItem}) => {
 
    const {message, photo, userName} = chatItem;
 

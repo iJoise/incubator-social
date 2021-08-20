@@ -1,8 +1,8 @@
 import React from 'react';
 import style from './Dialogs.module.scss';
-import {ChatList} from "./MessagesList/ChatList";
 import {DialogList} from "./DialogList/DialogList";
 import {DialogsType} from "../../redux/dialog-reducer";
+import {Chat} from "./Chat/Chat";
 
 type DialogsPropsType = {
    dialogs: DialogsType[]
@@ -15,9 +15,7 @@ export const Dialogs: React.FC<DialogsPropsType> = React.memo((props) => {
    return (
       <div className={style.dialogs}>
          <DialogList dialogs={dialogs}/>
-         <ChatList
-            sendMessage={sendMessage}
-         />
+         <Chat sendMessage={sendMessage} />
       </div>
    );
 });
