@@ -1,7 +1,7 @@
 import style from "./Message.module.scss";
 import React from "react";
 import user from '../../../../../assets/images/user.png'
-import {ChatMessageType} from "../../../../../api/chat-api";
+import {ChatMessageType} from "../../../../../redux/chat-reducer";
 
 type MessagePropsType = {
    chatItem: ChatMessageType

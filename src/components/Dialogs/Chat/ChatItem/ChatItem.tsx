@@ -1,9 +1,9 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {Message} from "./Message/Message";
 import style from "../../Dialogs.module.scss";
 import {useSelector} from "react-redux";
 import {AppStateType} from "../../../../redux/redux-store";
-import {ChatMessageType} from "../../../../api/chat-api";
+import {ChatMessageType} from "../../../../redux/chat-reducer";
 
 
 type MessagesListPropsType = {
@@ -13,18 +13,29 @@ type MessagesListPropsType = {
 export const ChatItem: React.FC<MessagesListPropsType> = React.memo(() => {
 
    const messages = useSelector<AppStateType, ChatMessageType[]>(state => state.chat.messages)
+   const [isAutoScroll, setIsAutoScroll] = useState(true);
 
-   const messagesElement = messages.map((m,i) =>
-      <Message key={new Date().getTime() + i} chatItem={m}/>
+   const messagesElement = messages.map(m =>
+      <Message key={m.id} chatItem={m}/>
    );
-   const messagesRef = React.createRef<HTMLDivElement>();
+   const messagesRef = useRef<HTMLDivElement>(null);
+   const messagesAnchor = useRef<HTMLDivElement>(null);
 
-   useEffect(() => {
-      const div = messagesRef.current;
-      if (div) {
-         div.scrollTo(0, div.scrollHeight)
+   const scrollHandler = (e: React.UIEvent<HTMLDivElement, UIEvent>) => {
+      const el = e.currentTarget;
+      if (Math.abs((el.scrollHeight - el.scrollTop) - el.clientHeight) < 300){
+         !isAutoScroll && setIsAutoScroll(true)
+      } else {
+         isAutoScroll && setIsAutoScroll(false)
       }
-   })
+   }
+   useEffect(() => {
+      if (isAutoScroll) {
+       // messagesRef.current?.scrollTo(0, messagesRef.current.scrollHeight);
+         messagesAnchor.current?.scrollIntoView({behavior: 'smooth'})
+      }
+
+   }, [messages, isAutoScroll])
 
    return (
       <div className={style.messages}>
@@ -38,8 +49,9 @@ export const ChatItem: React.FC<MessagesListPropsType> = React.memo(() => {
             <i className="fa fa-sliders"/>
          </div>
 
-         <div className={style.messagesBody} ref={messagesRef}>
+         <div className={style.messagesBody} ref={messagesRef} onScroll={scrollHandler}>
             {messagesElement}
+            <div ref={messagesAnchor}/>
          </div>
       </div>
    )

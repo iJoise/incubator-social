@@ -18,13 +18,13 @@ export const Chat: React.FC<ChatPropsType> = ({sendMessage}) => {
       return () => {
          dispatch(stopMessagesListening());
       }
-   }, [])
+   }, [dispatch])
 
 
    return (
       <div>
          <ChatItem sendMessage={sendMessage}/>
-         <AddMessageForm />
+         <AddMessageForm/>
       </div>
    )
 }
