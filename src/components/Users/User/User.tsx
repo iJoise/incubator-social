@@ -2,21 +2,20 @@ import React from "react";
 import s from "./User.module.scss";
 import userPhoto from "../../../assets/images/user.png";
 import {NavLink} from "react-router-dom";
-import {UsersType} from "../../../redux/users-reducer";
+import {follow, unfollow, UsersType} from "../../../redux/users-reducer";
+import {useDispatch} from "react-redux";
 
 type UserPropsType = {
    user: UsersType
-   follow: (userId: number) => void
-   unfollow: (userId: number) => void
    followingInProgress: number[]
 }
 
 
 export const User: React.FC<UserPropsType> = React.memo((props) => {
 
+   const dispatch = useDispatch()
+
    const {
-      unfollow,
-      follow,
       followingInProgress,
       user
    } = props;
@@ -39,13 +38,13 @@ export const User: React.FC<UserPropsType> = React.memo((props) => {
                      ? <button className={s.btn}
                                disabled={followingInProgress.some(id => id === user.id)}
                                onClick={() => {
-                                  unfollow(user.id)
+                                  dispatch(unfollow(user.id))
                                }
                                }>Unfollow</button>
                      : <button className={`${s.btn} ${s.btn__bl}`}
                                disabled={followingInProgress.some(id => id === user.id)}
                                onClick={() => {
-                                  follow(user.id)
+                                  dispatch(follow(user.id))
                                }
                                }>Follow</button>
                   }
