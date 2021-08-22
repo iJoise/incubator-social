@@ -1,8 +1,9 @@
 import React from "react";
 import s from "./Users.module.scss";
-import {UsersType} from "../../redux/users-reducer";
+import {FilterType, UsersType} from "../../redux/users-reducer";
 import {Paginator} from "../common/Paginator/Paginator";
 import {User} from "./User/User";
+import {UsersSearchForm} from "./UsersSearchForm";
 
 type UsersPropsType = {
    users: UsersType[]
@@ -13,6 +14,7 @@ type UsersPropsType = {
    currentPage: number
    onPageChanged: (pageNumber: number) => void
    followingInProgress: number[]
+   onFilterChanged: (filter: FilterType) => void
 }
 
 
@@ -27,6 +29,7 @@ export const Users: React.FC<UsersPropsType> = React.memo((props) => {
       currentPage,
       onPageChanged,
       followingInProgress,
+      onFilterChanged
    } = props;
 
 
@@ -36,15 +39,17 @@ export const Users: React.FC<UsersPropsType> = React.memo((props) => {
 
    return (
       <div className={s.user_container}>
-
-         {usersList}
-
+         <UsersSearchForm onFilterChanged={onFilterChanged}/>
          <Paginator
             totalItemsCount={totalUsersCount}
             pageSize={pageSize}
             currentPage={currentPage}
             onPageChanged={onPageChanged}
          />
+
+         {usersList}
+
       </div>
    )
 })
+

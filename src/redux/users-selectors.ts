@@ -8,7 +8,7 @@ const getUsersSelector = (state: AppStateType) => {
  * Пример использования реселекторов
  */
 export const getUsers = createSelector(getUsersSelector, (item) => {
-   return item.filter(u => true);
+   return item.filter(u => u);
 })
 
 export const getPageSize = (state: AppStateType) => {
@@ -26,3 +26,6 @@ export const getIsFetching = (state: AppStateType) => {
 export const getFollowingInProgress = (state: AppStateType) => {
    return state.usersPage.followingInProgress;
 };
+export const getUsersFilter = (state: AppStateType) => {
+   return state.usersPage.filter;
+}

@@ -4,6 +4,7 @@ import {AppThunkType} from "./redux-store";
 const FOLLOW = 'social/user/FOLLOW';
 const UNFOLLOW = 'social/user/UNFOLLOW';
 const SET_USERS = 'social/user/SET-USERS';
+const SET_FILTER_USERS = 'social/user/SET_FILTER_USERS';
 const SET_CURRENT_PAGE = 'social/user/SET_CURRENT_PAGE';
 const SET_TOTAL_USERS_COUNT = 'social/user/SET_TOTAL_USERS_COUNT';
 const TOGGLE_IS_FETCHING = 'social/user/TOGGLE_IS_FETCHING';
@@ -16,6 +17,10 @@ const initialState: UsersPageType = {
    currentPage: 1,
    isFetching: false,
    followingInProgress: [],
+   filter: {
+      term: '',
+      friend: null
+   }
 };
 
 export const usersReducer = (state = initialState, action: UsersActionsType): UsersPageType => {
@@ -57,6 +62,11 @@ export const usersReducer = (state = initialState, action: UsersActionsType): Us
                ? [...state.followingInProgress, action.userId]
                : state.followingInProgress.filter(id => id !== action.userId)
          }
+      case SET_FILTER_USERS:
+         return {
+            ...state,
+            filter: action.payload
+         }
       default:
          return state;
    }
@@ -73,14 +83,16 @@ export const toggleFollowingProgressAC = (following: boolean, userId: number) =>
    following,
    userId,
 } as const);
+export const setFilterUsersAC = (filter: FilterType) => ({type: SET_FILTER_USERS, payload: filter} as const);
 /**
  * ThunkCreator
  */
-export const requestUsers = (page: number, pageSize: number): AppThunkType => async dispatch => {
+export const requestUsers = (page: number, pageSize: number, filter: FilterType): AppThunkType => async dispatch => {
    try {
       dispatch(toggleIsFetchingAC(true));
       dispatch(setCurrentPageAC(page));
-      const data = await usersAPI.getUsers(page, pageSize);
+      dispatch(setFilterUsersAC(filter))
+      const data = await usersAPI.getUsers(page, pageSize, filter.term, filter.friend);
       dispatch(setUsersAC(data.items));
       dispatch(setTotalUsersCountAC(data.totalCount));
    } catch (err) {
@@ -125,6 +137,7 @@ export type UsersActionsType = FollowActionType
    | SetTotalUsersCountActionType
    | ToggleIsFetchingType
    | ToggleFollowingProgressType
+   | SetFilterUsersType
 
 export type PhotosType = {
    small: string | null
@@ -145,6 +158,12 @@ export type UsersPageType = {
    currentPage: number
    isFetching: boolean
    followingInProgress: number[]
+   filter: FilterType
+}
+
+export type FilterType = {
+   term: string
+   friend: null | boolean
 }
 export type FollowActionType = ReturnType<typeof followAC>;
 export type UnfollowActionType = ReturnType<typeof unFollowAC>;
@@ -153,4 +172,6 @@ export type SetCurrentPageActionTypeType = ReturnType<typeof setCurrentPageAC>;
 export type SetTotalUsersCountActionType = ReturnType<typeof setTotalUsersCountAC>;
 export type ToggleIsFetchingType = ReturnType<typeof toggleIsFetchingAC>;
 export type ToggleFollowingProgressType = ReturnType<typeof toggleFollowingProgressAC>;
+export type SetFilterUsersType = ReturnType<typeof setFilterUsersAC>
+
 
