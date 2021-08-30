@@ -2,6 +2,14 @@
 .profile {
   margin: 60px 0 0 30px;
   display: flex;
+  
+  &__updateProfile {
+    margin: 15px 0 0 0;
+    width: 120px;
+    height: 35px;
+    background-color: #304159;
+    color: #fff;
+  }
 
   img {
     width: 200px;
@@ -15,8 +23,8 @@
 
   &__load {
     position: absolute;
-    right: 0;
-    bottom: 0;
+    right: 2px;
+    bottom: 20px;
     cursor: pointer;
     width: 34px;
     height: 34px;
@@ -65,8 +73,13 @@
     font-size: 18px;
     padding: 0 0 5px 0;
     span {
-      padding: 0 0 0 10px;
-      font-weight: 600;
+      opacity: 0.7;
+    }
+  }
+
+  &__about {
+    span {
+      opacity: 0.7;
     }
   }
 
@@ -99,3 +112,4 @@
   background-color: #f0f2f7;
   border-radius: 5px;
 }
+

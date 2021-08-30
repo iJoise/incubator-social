@@ -4,6 +4,7 @@ import style from "./ProfileInfo.module.scss";
 type ProfileStatusPropsType = {
    status: string | null
    updateStatus: (status: string) => void
+   isOwner: boolean
 }
 
 type LocalStateType = {

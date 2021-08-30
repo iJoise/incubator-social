@@ -59,6 +59,7 @@ const Users: React.FC = React.memo(() => {
             break;
       }
       dispatch(requestUsers(actualPage, pageSize, actualFilter));
+// eslint-disable-next-line react-hooks/exhaustive-deps
    }, [])
 
    useEffect(() => {

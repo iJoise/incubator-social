@@ -1,17 +1,13 @@
-import React, {ChangeEvent} from 'react';
+import React, {ChangeEvent, useState} from 'react';
 import style from './ProfileInfo.module.scss';
 import {UserProfileType} from '../../../redux/profile-reducer';
 import {Preloader} from '../../common/preloader/Preloader';
 import userPhoto from '../../../assets/images/user.png';
 import profileHeader from '../../../assets/images/vseti.jpeg';
-import instagram from '../../../assets/images/icon/instagram.png';
-import facebook from '../../../assets/images/icon/facebook.png';
-import github from '../../../assets/images/icon/github.png';
-import twitter from '../../../assets/images/icon/twitter.png';
-import website from '../../../assets/images/icon/website.png';
-import vk from '../../../assets/images/icon/vk.png';
-import youtube from '../../../assets/images/icon/youtube.png';
 import {ProfileStatus} from './ProfileStatus'
+import {ProfileSocial} from "./ProfileSocial";
+import {ProfileModal} from "./ProfileModal/ProfileModal";
+import {ProfileUpdateType} from "../../../api/api";
 
 
 type ProfileInfoPropsType = {
@@ -20,17 +16,23 @@ type ProfileInfoPropsType = {
    updateStatus: (status: string) => void
    isOwner: boolean
    savePhoto: (photo: File) => void
+   saveProfile: (data: ProfileUpdateType) => void
 }
 
 export const ProfileInfo: React.FC<ProfileInfoPropsType> = React.memo((props) => {
 
-   const {profile, status, updateStatus, isOwner, savePhoto} = props;
+   const {profile, status, updateStatus, isOwner, savePhoto, saveProfile} = props;
+
+   const [modalActive, setModalActive] = useState(false);
+
+   const openModalHandler = (value: boolean) => {
+      setModalActive(value);
+   }
 
    const onMainPhotoSelected = (e: ChangeEvent<HTMLInputElement>) => {
       e.target.files
       && e.target.files.length
       && savePhoto(e.target.files[0])
-
    }
 
    if (!profile) {
@@ -49,36 +51,26 @@ export const ProfileInfo: React.FC<ProfileInfoPropsType> = React.memo((props) =>
             </div>
             <div className={style.profile__body}>
                <h3>{profile.fullName}</h3>
-               <ProfileStatus
-                  status={status}
-                  updateStatus={updateStatus}
-               />
+               <ProfileStatus status={status} updateStatus={updateStatus} isOwner={isOwner}/>
+               {
+                  profile.aboutMe && <p className={style.profile__about}>
+                    About Me: <span>{profile.aboutMe}</span></p>
+               }
                <div className={style.profile__jobInfo}>
                   <p className={style.profile__jobSearch}>В поиске работы:
                      <span>{profile.lookingForAJob ? '✅' : '❌'}</span></p>
                   {
                      profile.lookingForAJobDescription && <p className={style.profile__jobSearch}>
-                        {profile.lookingForAJobDescription}
-                     </p>
+                        Description: <span>{profile.lookingForAJobDescription}</span></p>
                   }
+                  {isOwner && <button
+                     onClick={() => openModalHandler(true)}
+                     className={style.profile__updateProfile}
+                  >Update profile...</button>}
                </div>
-               <div className={style.profile__social}>
-                  {profile.contacts.github &&
-                  <a href={profile.contacts.github}><img src={github} alt="github"/></a>}
-                  {profile.contacts.facebook &&
-                  <a href={profile.contacts.facebook}><img src={facebook} alt="facebook"/></a>}
-                  {profile.contacts.instagram &&
-                  <a href={profile.contacts.instagram}><img src={instagram} alt="instagram"/></a>}
-                  {profile.contacts.twitter &&
-                  <a href={profile.contacts.twitter}><img src={twitter} alt="twitter"/></a>}
-                  {profile.contacts.vk &&
-                  <a href={profile.contacts.vk}><img src={vk} alt="twitter"/></a>}
-                  {profile.contacts.youtube &&
-                  <a href={profile.contacts.youtube}><img src={youtube} alt="youtube"/></a>}
-                  {profile.contacts.website &&
-                  <a href={profile.contacts.website}><img src={website} alt="website"/></a>}
-               </div>
+               <ProfileSocial profile={profile}/>
             </div>
+            {isOwner && <ProfileModal profile={profile} saveProfile={saveProfile} modalActive={modalActive} setModalActive={setModalActive}/>}
          </div>
       </>
    );

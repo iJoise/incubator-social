@@ -1,7 +1,7 @@
 import axios from "axios";
 import {AuthDataType} from "../redux/auth-reducer";
 import {PhotosType, UsersType} from "../redux/users-reducer";
-import {UserProfileType} from "../redux/profile-reducer";
+import {ContactsType, UserProfileType} from "../redux/profile-reducer";
 
 
 const instance = axios.create({
@@ -66,6 +66,10 @@ export const profileAPI = {
          }
       });
       return response.data
+   },
+   async saveProfile(formData: ProfileUpdateType) {
+      const response = await instance.put<ResponseType>(`profile`, formData)
+      return response.data
    }
 }
 
@@ -79,4 +83,13 @@ type ResponseUserType = {
    error: string | null
    items: UsersType[]
    totalCount: number
+}
+
+export type ProfileUpdateType = {
+   contacts: ContactsType
+   lookingForAJob: boolean
+   lookingForAJobDescription: string | null
+   fullName: string
+   userId: number
+   AboutMe: string
 }

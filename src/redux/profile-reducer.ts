@@ -1,6 +1,6 @@
 import {v1} from 'uuid';
 import {PhotosType} from "./users-reducer";
-import {profileAPI} from "../api/api";
+import {profileAPI, ProfileUpdateType} from "../api/api";
 import {AppThunkType} from "./redux-store";
 
 const ADD_NEW_POST = 'social/profile/ADD-NEW-POST';
@@ -8,6 +8,7 @@ const SET_USER_PROFILE = 'social/profile/SET_USER_PROFILE';
 const SET_STATUS = 'social/profile/SET_STATUS';
 const SET_PHOTO = 'social/profile/SET_PHOTO';
 const SAVE_PHOTOS_SUCCESS = 'social/profile/SAVE_PHOTOS_SUCCESS';
+const SAVE_PROFILE = 'social/profile/SAVE_PROFILE';
 
 const initialState: ProfilePageType = {
    posts: [
@@ -72,6 +73,7 @@ export const setUserProfileAC = (profile: UserProfileType) => ({type: SET_USER_P
 export const setStatusAC = (status: string) => ({type: SET_STATUS, status} as const)
 export const setMyPhotoAC = (photo: PhotosType) => ({type: SET_PHOTO, photo} as const)
 export const savePhotoSuccess = (photos: PhotosType) => ({type: SAVE_PHOTOS_SUCCESS, photos} as const)
+export const saveProfileAC = (profile: UserProfileType) => ({type: SAVE_PROFILE, profile})
 
 
 /**
@@ -126,6 +128,16 @@ export const savePhoto = (photo: File): AppThunkType => async dispatch => {
    }
 }
 
+export const saveProfile = (formData: ProfileUpdateType): AppThunkType => async dispatch => {
+   try {
+      await profileAPI.saveProfile(formData);
+      const dataUser = await profileAPI.getProfile(formData.userId);
+      dispatch(setUserProfileAC(dataUser));
+   } catch(err) {
+      console.warn(err);
+   }
+}
+
 /**
  * type
  */
@@ -147,9 +159,8 @@ export type PostType = {
    message: string
    countLike: number
 }
-type ContactsType = {
+export type ContactsType = {
    facebook: string | null
-   website: string | null
    vk: string | null
    twitter: string | null
    instagram: string | null
@@ -158,7 +169,7 @@ type ContactsType = {
    mainLink: string | null
 }
 export type UserProfileType = {
-   aboutMe: string | null
+   aboutMe: string
    contacts: ContactsType
    lookingForAJob: boolean
    lookingForAJobDescription: string | null
